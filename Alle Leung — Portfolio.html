@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Alle Leung — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--mint:#B6D3CD;--green:#0BCF9E;--teal:#0A7A86;--ink:#2B2D2C;--paper:#EEF5F3;--text:#2B2D2C;--muted:#4d5a57;--card:#fff;--ondark:#e6ece9;
+--serif:'Fraunces',Georgia,serif;--sans:'Montserrat',system-ui,sans-serif;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--paper:#1f2322;--text:#e6ece9;--muted:#a9b8b4;--card:#2B2D2C}}
+:root[data-theme="dark"]{--paper:#1f2322;--text:#e6ece9;--muted:#a9b8b4;--card:#2B2D2C}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-behavior:smooth;scroll-padding-top:calc(72px + env(safe-area-inset-top,0px))}
+body{margin:0;background:var(--paper);color:var(--text);font:400 16px/1.65 var(--sans)}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--green);outline-offset:3px}
+.wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+h1,h2,h3{font-family:var(--serif);font-weight:300;line-height:1.1;margin:0}
+.grad{background:linear-gradient(90deg,var(--green),var(--teal));-webkit-background-clip:text;background-clip:text;color:transparent}
+
+/* nav */
+header{position:fixed;top:0;left:0;right:0;z-index:20;background:color-mix(in srgb,var(--paper) 88%,transparent);backdrop-filter:blur(10px);padding-top:env(safe-area-inset-top,0px)}
+nav{display:flex;align-items:center;justify-content:space-between;height:64px}
+.logo{font:600 15px var(--sans);letter-spacing:.14em;text-decoration:none}
+.links{display:flex;gap:28px;list-style:none;margin:0;padding:0}
+.links a{text-decoration:none;font-weight:500;font-size:14px;padding:6px 0;border-bottom:2px solid transparent}
+.links a.on,.links a:hover{border-color:var(--green)}
+#bar{position:absolute;left:0;bottom:0;height:3px;width:100%;background:linear-gradient(90deg,var(--green),var(--teal));transform:scaleX(0);transform-origin:left}
+.burger{display:none;background:none;border:0;width:44px;height:44px;cursor:pointer;color:inherit}
+.burger span{display:block;width:24px;height:2px;background:currentColor;margin:5px auto;transition:.25s}
+.burger[aria-expanded=true] span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.burger[aria-expanded=true] span:nth-child(2){opacity:0}
+.burger[aria-expanded=true] span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+@media(max-width:760px){
+.burger{display:block}
+.links{position:absolute;top:100%;left:0;right:0;flex-direction:column;gap:0;background:var(--paper);padding:8px 24px 16px;transform:translateY(-8px);opacity:0;visibility:hidden;transition:.25s}
+.links.open{transform:none;opacity:1;visibility:visible}
+.links a{display:block;padding:14px 0;font-size:16px}}
+
+/* hero: the one orchestrated moment — teal stripes slide in */
+.hero{min-height:100svh;display:grid;place-items:center;text-align:center;position:relative;overflow:hidden;color:#fff;padding:96px 24px 48px}
+.stripes{position:absolute;inset:0;display:grid;grid-template-columns:repeat(6,1fr)}
+.stripes i{background:linear-gradient(90deg,var(--c1),var(--c2));transform:translateY(-100%);animation:drop .9s cubic-bezier(.2,.7,.2,1) forwards;animation-delay:calc(var(--n)*90ms)}
+@keyframes drop{to{transform:none}}
+.hero .in{position:relative;opacity:0;animation:fade 1s .7s forwards}
+@keyframes fade{to{opacity:1}}
+.hero small{letter-spacing:.3em;font-weight:500;font-size:14px}
+.hero h1{font-size:clamp(3.4rem,13vw,9rem);color:#F0E9DF;margin-top:.15em;text-shadow:0 2px 30px rgba(0,40,40,.25)}
+.hero p{margin:18px auto 0;max-width:34ch;font-size:15px}
+.cue{display:inline-block;margin-top:32px;text-decoration:none;border:1px solid rgba(255,255,255,.7);padding:12px 26px;border-radius:99px;font-weight:500;font-size:14px;transition:.2s}
+.cue:hover{background:#fff;color:var(--ink)}
+
+section{padding:110px 0}
+/* about */
+#about{background:var(--mint);color:var(--ink)}
+.about{display:grid;grid-template-columns:1.1fr 1fr;gap:56px;align-items:center}
+.about h2{font-size:clamp(2.2rem,5vw,4rem)}
+.panel{background:var(--ink);color:var(--ondark);padding:40px;border-radius:4px}
+.panel b{display:block;color:var(--green);font-size:20px;letter-spacing:.02em}
+.panel .role{font-size:14px;letter-spacing:.08em;margin:2px 0 20px;opacity:.9}
+.panel p{margin:0;max-width:60ch}
+.skills{display:flex;flex-wrap:wrap;gap:8px;margin-top:24px;padding:0;list-style:none}
+.skills li{border:1px solid rgba(255,255,255,.25);border-radius:99px;padding:4px 14px;font-size:13px}
+@media(max-width:860px){.about{grid-template-columns:1fr;gap:32px}section{padding:80px 0}}
+
+/* work */
+.head{margin-bottom:48px;max-width:640px}
+.head h2{font-size:clamp(2rem,4.5vw,3.4rem)}
+.head p{color:var(--muted);margin:14px 0 0}
+.case{background:var(--card);border-radius:6px;overflow:hidden;margin-bottom:40px;box-shadow:0 1px 0 rgba(0,0,0,.08)}
+.case>.top{padding:36px 40px;background:var(--green);color:var(--ink)}
+.case .top small{font-weight:600;font-size:13px}
+.case .top h3{font-size:clamp(1.6rem,3vw,2.3rem);margin:6px 0}
+.case .top p{margin:0;opacity:.85}
+.gal{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;background:var(--paper)}
+.gal button{border:0;padding:0;cursor:zoom-in;aspect-ratio:4/3;position:relative;overflow:hidden;color:#fff;font:500 13px var(--sans);background:linear-gradient(135deg,var(--a),var(--b))}
+.gal button:first-child{grid-column:span 2;aspect-ratio:auto;min-height:260px}
+.gal button img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.gal button span{position:absolute;left:14px;bottom:12px;text-align:left;text-shadow:0 1px 6px rgba(0,0,0,.4)}
+.gal button:hover{filter:brightness(1.08)}
+.stats{display:flex;flex-wrap:wrap;gap:16px 56px;padding:36px 40px 8px}
+.stat b{display:block;font:300 clamp(2rem,4vw,3rem)/1 var(--serif);color:var(--teal)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .stat b{color:var(--green)}}
+.stat span{font-size:13px;color:var(--muted)}
+.toggle{margin:20px 40px 36px;display:inline-flex;align-items:center;gap:10px;background:none;border:1.5px solid var(--text);color:var(--text);border-radius:99px;padding:10px 22px;font:500 14px var(--sans);cursor:pointer}
+.toggle:hover{background:var(--text);color:var(--card)}
+.toggle i{display:inline-block;transition:transform .3s;font-style:normal}
+.toggle[aria-expanded=true] i{transform:rotate(180deg)}
+.more{display:grid;grid-template-rows:0fr;transition:grid-template-rows .45s ease}
+.more.open{grid-template-rows:1fr}
+.more>div{overflow:hidden}
+.cols{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;padding:8px 40px 40px}
+.cols h4{margin:0 0 6px;font:600 15px var(--sans)}
+.cols p{margin:0;color:var(--muted);font-size:15px}
+.caps{padding:0 40px 40px;display:flex;flex-wrap:wrap;gap:8px}
+.caps span{background:var(--paper);border-radius:99px;padding:5px 14px;font-size:13px}
+@media(max-width:860px){.cols{grid-template-columns:1fr;gap:20px}.case>.top,.stats,.cols,.caps{padding-left:24px;padding-right:24px}.toggle{margin-left:24px}.gal{grid-template-columns:1fr 1fr}.gal button:first-child{grid-column:span 2;min-height:200px}}
+
+/* award */
+#award{background:var(--green);color:var(--ink)}
+.award{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+.award h2{font-size:clamp(2rem,4.5vw,3.4rem);margin:8px 0 24px}
+.award h4{margin:18px 0 2px;font:600 15px var(--sans)}.award p{margin:0;max-width:52ch}
+.poster{aspect-ratio:3/4;max-height:520px;margin:0 auto;border:0;padding:0;cursor:zoom-in;border-radius:3px;background:radial-gradient(circle at 50% 40%,#555,#1b1b1b);box-shadow:0 20px 50px rgba(0,0,0,.3);width:min(100%,390px);position:relative;color:#ddd;font:500 13px var(--sans)}
+.poster span{position:absolute;bottom:14px;left:14px}
+@media(max-width:860px){.award{grid-template-columns:1fr;gap:32px}}
+
+/* contact */
+#contact{background:var(--mint);color:var(--ink);text-align:center}
+#contact h2{font-size:clamp(1.8rem,4.2vw,3.2rem)}
+#contact p{max-width:60ch;margin:22px auto}
+.contact a{font-weight:500;text-underline-offset:4px}
+footer{background:var(--ink);color:#9fb0ab;text-align:center;font-size:13px;padding:24px}
+
+/* reveal */
+.rv{opacity:0;transform:translateY(28px);transition:opacity .8s ease,transform .8s ease}
+.rv.in{opacity:1;transform:none}
+
+/* lightbox */
+dialog{border:0;padding:0;background:transparent;max-width:min(92vw,1000px);width:100%;color:#fff;overflow:visible}
+dialog::backdrop{background:rgba(10,14,13,.88)}
+.lb{aspect-ratio:16/10;border-radius:4px;display:grid;place-items:center;background:linear-gradient(135deg,var(--a),var(--b));position:relative;overflow:hidden}
+.lb img{width:100%;height:100%;object-fit:contain;background:#000}
+.cap{padding:14px 4px;font-size:14px;display:flex;justify-content:space-between;gap:16px}
+.lbx{position:absolute;top:-48px;right:0;background:none;border:0;color:#fff;font-size:32px;cursor:pointer;width:44px;height:44px}
+.nv{position:absolute;top:50%;transform:translateY(-50%);background:rgba(0,0,0,.45);color:#fff;border:0;width:44px;height:44px;border-radius:50%;font-size:22px;cursor:pointer}
+.nv.p{left:10px}.nv.n{right:10px}
+
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation-duration:.01ms!important;animation-delay:0s!important;transition-duration:.01ms!important}.rv{opacity:1;transform:none}.stripes i{transform:none}.hero .in{opacity:1}}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap"><nav aria-label="Main">
+    <a class="logo" href="#top">ALLE LEUNG</a>
+    <button class="burger" aria-label="Menu" aria-expanded="false" aria-controls="menu"><span></span><span></span><span></span></button>
+    <ul class="links" id="menu">
+      <li><a href="#about">About</a></li>
+      <li><a href="#conference">Project 01</a></li>
+      <li><a href="#hsbc">Project 02</a></li>
+      <li><a href="#aeon">Project 03</a></li>
+      <li><a href="#award">Award</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul></nav></div>
+  <div id="bar"></div>
+</header>
+
+<main id="top">
+<div class="hero">
+  <div class="stripes" aria-hidden="true">
+    <i style="--n:0;--c1:#a4bcb9;--c2:#5f7d80"></i><i style="--n:1;--c1:#86b3ac;--c2:#4d7f84"></i><i style="--n:2;--c1:#68b8a8;--c2:#2d808a"></i><i style="--n:3;--c1:#58bfa6;--c2:#1b7389"></i><i style="--n:4;--c1:#3ab59b;--c2:#17607a"></i><i style="--n:5;--c1:#00b384;--c2:#075f6c"></i>
+  </div>
+  <div class="in">
+    <small>ALLE LEUNG</small>
+    <h1>Portfolio</h1>
+    <p>Creative management, brand and events.</p>
+    <a class="cue" href="#about">View my work</a>
+  </div>
+</div>
+
+<section id="about"><div class="wrap about">
+  <h2 class="grad rv">“Connecting creative thinking, strategic execution and meaningful experiences.”</h2>
+  <div class="panel rv">
+    <b>ALLE LEUNG Yi Ching</b>
+    <div class="role">CREATIVE MANAGEMENT · BRAND · EVENTS</div>
+    <p>Results-driven professional with extensive experience in project management, stakeholder engagement, strategic communications, and event execution. Proven ability to lead complex initiatives, manage diverse stakeholders, and deliver high-quality outcomes in dynamic environments. Known for strong organisational, analytical, and problem-solving skills, coupled with a proactive approach to operational excellence and continuous improvement.</p>
+    <ul class="skills"><li>Project management</li><li>Stakeholder engagement</li><li>Strategic communications</li><li>Event execution</li></ul>
+  </div>
+</div></section>
+
+<section id="work"><div class="wrap">
+  <div class="head rv"><h2>Selected work</h2><p>Three projects across events, regional digital and brand leadership. Select an image to enlarge it, or open a case study for the full story.</p></div>
+
+  <article class="case rv" id="conference">
+    <div class="top"><small>Project 01</small><h3>International Conference | Project Delivery &amp; Experience</h3><p>GaPI Conference 2026, The Hong Kong Polytechnic University</p></div>
+    <div class="gal" data-gallery>
+      <button style="--a:#7a5a45;--b:#2c1f1a" data-cap="Main hall with hybrid panel discussion"><span>Main hall, hybrid panel</span></button>
+      <button style="--a:#0b8a7a;--b:#10303a" data-cap="Opening ceremony stage, GaPI 2026"><span>Opening ceremony</span></button>
+      <button style="--a:#c0392b;--b:#2b2d2c" data-cap="Keynote session"><span>Keynote</span></button>
+    </div>
+    <div class="stats">
+      <div class="stat"><b data-to="3">0</b><span>Days of conference</span></div>
+      <div class="stat"><b data-to="180" data-suf="+">0</b><span>Paper submissions</span></div>
+      <div class="stat"><b data-to="300">0</b><span>Average daily participants</span></div>
+      <div class="stat"><b data-to="20" data-suf="+">0</b><span>Countries &amp; regions</span></div>
+    </div>
+    <button class="toggle" aria-expanded="false" aria-controls="m1">Read case study <i>▾</i></button>
+    <div class="more" id="m1"><div>
+      <div class="cols">
+        <div><h4>Project overview</h4><p>A three-day international conference bringing together presenters from more than 20 countries and regions, supported by a programme of paper submissions and coordinated conference activities.</p></div>
+        <div><h4>My role</h4><p>As Event Implementation Lead, I coordinated end-to-end conference planning and curation, working with conference committees and coordinating presenter arrangements and paper submissions.</p></div>
+        <div><h4>Project impact</h4><p>Contributed to the planning and delivery of a large-scale international conference through cross-stakeholder coordination, submission management and speaker logistics.</p></div>
+      </div>
+      <div class="caps"><span>Project Coordination</span><span>Stakeholder Management</span><span>Event Curation</span><span>Operational Planning</span><span>Data Analysis</span></div>
+    </div></div>
+  </article>
+
+  <article class="case rv" id="hsbc">
+    <div class="top"><small>Project 02</small><h3>Regional Digital Campaigns | Creative Execution &amp; Digital Performance</h3><p>Premier 3.0 Migration, HSBC · 2019–2023</p></div>
+    <div class="gal" data-gallery>
+      <button style="--a:#b3202c;--b:#5a0f18" data-cap="Premier campaign landing page"><span>Landing page</span></button>
+      <button style="--a:#d94a4a;--b:#7a1d25" data-cap="Direct email"><span>Direct email</span></button>
+      <button style="--a:#8a8f93;--b:#2b2d2c" data-cap="Mobile application"><span>Mobile app</span></button>
+    </div>
+    <div class="stats">
+      <div class="stat"><b data-to="10" data-suf="+">0</b><span>APAC markets</span></div>
+      <div class="stat"><b data-to="1" data-suf="M+">0</b><span>Targeted users reached</span></div>
+      <div class="stat"><b data-to="26" data-suf="%">0</b><span>Conversion rate uplift</span></div>
+    </div>
+    <button class="toggle" aria-expanded="false" aria-controls="m2">Read case study <i>▾</i></button>
+    <div class="more" id="m2"><div>
+      <div class="cols">
+        <div><h4>Project overview</h4><p>Delivered visual strategies and promotional materials across public websites, direct emails and mobile applications, supporting digital campaigns across 10 APAC markets.</p></div>
+        <div><h4>My role</h4><p>Worked with content specialists and UX designers to develop and deliver digital creative assets, improve workflow efficiency, and maintain brand and accessibility standards.</p></div>
+        <div><h4>Project impact</h4><p>Translated creative requirements into consistent, scalable digital communications while fostering cross-functional collaboration and supporting measurable campaign performance.</p></div>
+      </div>
+      <div class="caps"><span>Digital Creative Strategy</span><span>Multi-Channel Execution</span><span>Regional Stakeholder Coordination</span><span>Brand Consistency</span><span>Workflow Improvement</span></div>
+    </div></div>
+  </article>
+
+  <article class="case rv" id="aeon">
+    <div class="top"><small>Project 03</small><h3>Integrated Brand Campaigns | Brand Management &amp; Creative Leadership</h3><p>AEON Credit Service (Asia) · 2015–2019</p></div>
+    <div class="gal" data-gallery>
+      <button style="--a:#2b2d2c;--b:#6b3a8a" data-cap="AEON Card Premium: digital and direct mail"><span>AEON Card Premium</span></button>
+      <button style="--a:#d9362b;--b:#8a1f1a" data-cap="Tastes of Japan 2018 key visual"><span>Tastes of Japan key visual</span></button>
+      <button style="--a:#a8302a;--b:#2b2d2c" data-cap="Tastes of Japan 2018 in-store and outdoor"><span>In-store &amp; outdoor</span></button>
+    </div>
+    <div class="stats">
+      <div class="stat"><b data-to="2" data-pre="$" data-suf="M">0</b><span>Media plans managed</span></div>
+      <div class="stat"><b data-to="15" data-pre="+" data-suf="%">0</b><span>Brand awareness</span></div>
+      <div class="stat"><b data-to="20" data-pre="+" data-suf="%">0</b><span>Customer engagement</span></div>
+    </div>
+    <button class="toggle" aria-expanded="false" aria-controls="m3">Read case study <i>▾</i></button>
+    <div class="more" id="m3"><div>
+      <div class="cols">
+        <div><h4>Project overview</h4><p>Managed integrated marketing activities designed to strengthen brand awareness and customer engagement, coordinating mass campaigns across PR events, television commercials and digital media.</p></div>
+        <div><h4>My role</h4><p>Led a team of four creative professionals and coordinated external agencies, budgets and timelines. Managed media plans valued at $2M and supported the delivery of at least four mass campaigns annually.</p></div>
+        <div><h4>Project impact</h4><p>Delivered a cohesive brand-building initiative by aligning creative direction, campaign strategy, team leadership, and multi-channel execution to maximise campaign effectiveness.</p></div>
+      </div>
+      <div class="caps"><span>Brand Management</span><span>Integrated Marketing</span><span>Media Planning</span><span>Team Leadership</span><span>Agency Management</span><span>Budget and Timeline Control</span></div>
+    </div></div>
+  </article>
+</div></section>
+
+<section id="award"><div class="wrap award">
+  <div class="rv">
+    <small style="font-weight:600">Award</small>
+    <h2>Champion of Adobe Design Competition, Traditional Media 2009</h2>
+    <h4>Theme</h4><p>Big World Small Village</p>
+    <h4>Design concept</h4><p>By arranging small human figures into religious symbols, the poster visualises religion's ability to foster community and belonging, while also acknowledging the separations that can result from different beliefs and values.</p>
+  </div>
+  <div data-gallery class="rv"><button class="poster" data-cap="Big World Small Village — award-winning poster" style="--a:#555;--b:#1b1b1b"><span>Award-winning poster</span></button></div>
+</div></section>
+
+<section id="contact"><div class="wrap">
+  <h2 class="grad rv">Creative vision. Thoughtful execution. Measurable impact.</h2>
+  <p class="rv">Drawing on experience in design, branding, and project delivery, I enjoy bringing people and ideas together to create meaningful outcomes through collaboration and thoughtful execution.</p>
+  <p class="contact rv"><b>Email</b> <a href="mailto:larcching@gmail.com">larcching@gmail.com</a> &nbsp;|&nbsp; <b>LinkedIn</b> <a href="https://www.linkedin.com/in/alle-leung-313571105" target="_blank" rel="noopener">alle-leung-313571105</a></p>
+</div></section>
+</main>
+<footer>© 2026 Alle Leung</footer>
+
+<dialog id="lb" aria-label="Image viewer">
+  <button class="lbx" aria-label="Close">×</button>
+  <div class="lb" id="lbimg"><button class="nv p" aria-label="Previous">‹</button><button class="nv n" aria-label="Next">›</button></div>
+  <div class="cap"><span id="lbcap"></span><span id="lbcount"></span></div>
+</dialog>
+
+<script>
+(function(){
+const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* nav: progress, active link, hamburger */
+const bar=$('#bar'),links=$$('.links a'),menu=$('#menu'),burger=$('.burger');
+function onScroll(){
+  const h=document.documentElement,max=h.scrollHeight-innerHeight;
+  bar.style.transform='scaleX('+(max>0?Math.min(1,scrollY/max):0)+')';
+}
+addEventListener('scroll',onScroll,{passive:true});onScroll();
+const secs=['about','conference','hsbc','aeon','award','contact'].map(id=>document.getElementById(id));
+new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)links.forEach(a=>a.classList.toggle('on',a.getAttribute('href')==='#'+e.target.id))}),{rootMargin:'-45% 0px -50% 0px'}).observe&&secs.forEach(s=>{
+  new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)links.forEach(a=>a.classList.toggle('on',a.getAttribute('href')==='#'+s.id))}),{rootMargin:'-45% 0px -50% 0px'}).observe(s)});
+function closeMenu(){menu.classList.remove('open');burger.setAttribute('aria-expanded','false')}
+burger.onclick=()=>{const o=menu.classList.toggle('open');burger.setAttribute('aria-expanded',o)};
+links.forEach(a=>a.addEventListener('click',closeMenu));
+addEventListener('keydown',e=>{if(e.key==='Escape')closeMenu()});
+
+/* reveal */
+const rio=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');rio.unobserve(e.target)}}),{threshold:.12});
+$$('.rv').forEach(el=>rio.observe(el));
+
+/* animated stats */
+function count(el){
+  const to=+el.dataset.to,pre=el.dataset.pre||'',suf=el.dataset.suf||'';
+  if(reduce){el.textContent=pre+to+suf;return}
+  const t0=performance.now(),d=1400;
+  (function f(t){const p=Math.min(1,(t-t0)/d),v=Math.round(to*(1-Math.pow(1-p,3)));
+    el.textContent=pre+v+suf;if(p<1)requestAnimationFrame(f)})(t0);
+}
+const sio=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){count(e.target);sio.unobserve(e.target)}}),{threshold:.6});
+$$('[data-to]').forEach(el=>sio.observe(el));
+
+/* case study toggles */
+$$('.toggle').forEach(b=>b.onclick=()=>{
+  const open=b.getAttribute('aria-expanded')!=='true';
+  b.setAttribute('aria-expanded',open);
+  $('#'+b.getAttribute('aria-controls')).classList.toggle('open',open);
+  b.firstChild.textContent=open?'Close case study ':'Read case study ';
+});
+
+/* lightbox */
+const dlg=$('#lb'),box=$('#lbimg'),cap=$('#lbcap'),cnt=$('#lbcount');
+let items=[],idx=0,opener=null;
+function show(){
+  const b=items[idx];
+  box.style.setProperty('--a',getComputedStyle(b).getPropertyValue('--a'));
+  box.style.setProperty('--b',getComputedStyle(b).getPropertyValue('--b'));
+  const old=$('img',box);if(old)old.remove();
+  if(b.dataset.src){const i=new Image();i.src=b.dataset.src;i.alt=b.dataset.cap;box.prepend(i)}
+  else if(!$('.ph',box)){}
+  let ph=$('.ph',box);if(!ph){ph=document.createElement('span');ph.className='ph';ph.style.cssText='font:300 28px var(--serif);opacity:.85;text-align:center;padding:24px';box.prepend(ph)}
+  ph.textContent=b.dataset.src?'':b.dataset.cap;
+  cap.textContent=b.dataset.cap;cnt.textContent=items.length>1?(idx+1)+' / '+items.length:'';
+  $$('.nv',box).forEach(n=>n.style.display=items.length>1?'':'none');
+}
+$$('[data-gallery]').forEach(g=>{
+  const bs=$$('button',g);
+  bs.forEach((b,i)=>b.onclick=()=>{items=bs;idx=i;opener=b;show();dlg.showModal()});
+});
+const step=d=>{idx=(idx+d+items.length)%items.length;show()};
+$('.nv.p').onclick=()=>step(-1);$('.nv.n').onclick=()=>step(1);
+$('.lbx').onclick=()=>dlg.close();
+dlg.addEventListener('click',e=>{if(e.target===dlg)dlg.close()});
+dlg.addEventListener('close',()=>opener&&opener.focus());
+addEventListener('keydown',e=>{if(!dlg.open)return;if(e.key==='ArrowLeft')step(-1);if(e.key==='ArrowRight')step(1)});
+})();
+</script>
+</body>
+</html>
