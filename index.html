@@ -41,9 +41,9 @@ nav{display:flex;align-items:center;justify-content:space-between;height:64px}
 .links a{display:block;padding:14px 0;font-size:16px}}
 
 /* hero: the one orchestrated moment — teal stripes slide in */
-.hero{min-height:100svh;display:grid;place-items:center;text-align:center;position:relative;overflow:hidden;color:#fff;padding:96px 24px 48px}
+.hero{background:var(--mint);min-height:100svh;display:grid;place-items:center;text-align:center;position:relative;overflow:hidden;color:#fff;padding:96px 24px 48px}
 .stripes{position:absolute;inset:0;display:grid;grid-template-columns:repeat(6,1fr)}
-.stripes i{background:linear-gradient(90deg,var(--c1),var(--c2));transform:translateY(-100%);animation:drop .9s cubic-bezier(.2,.7,.2,1) forwards;animation-delay:calc(var(--n)*90ms)}
+.stripes i{transform-origin:top;background:linear-gradient(90deg,var(--c1),var(--c2));transform:translateY(-100%);animation:drop .9s cubic-bezier(.2,.7,.2,1) forwards;animation-delay:calc(var(--n)*90ms)}
 @keyframes drop{to{transform:none}}
 .hero .in{position:relative;opacity:0;animation:fade 1s .7s forwards}
 @keyframes fade{to{opacity:1}}
@@ -71,7 +71,7 @@ section{padding:110px 0}
 .head h2{font-size:clamp(2rem,4.5vw,3.4rem)}
 .head p{color:var(--muted);margin:14px 0 0}
 .case{background:var(--card);border-radius:6px;overflow:hidden;margin-bottom:40px;box-shadow:0 1px 0 rgba(0,0,0,.08)}
-.case>.top{padding:36px 40px;background:var(--green);color:var(--ink)}
+.case>.top{padding:36px 40px;color:var(--ink);background:linear-gradient(var(--green),var(--green)) left/0% 100% no-repeat,var(--card);transition:background-size 1s .25s cubic-bezier(.3,.7,.2,1)}.case.in>.top{background-size:100% 100%}
 .case .top small{font-weight:600;font-size:13px}
 .case .top h3{font-size:clamp(1.6rem,3vw,2.3rem);margin:6px 0}
 .case .top p{margin:0;opacity:.85}
@@ -118,6 +118,17 @@ footer{background:var(--ink);color:#9fb0ab;text-align:center;font-size:13px;padd
 /* reveal */
 .rv{opacity:0;transform:translateY(28px);transition:opacity .8s ease,transform .8s ease}
 .rv.in{opacity:1;transform:none}
+header{transition:box-shadow .3s}header.sc{box-shadow:0 6px 24px rgba(0,0,0,.12)}nav{transition:height .3s}header.sc nav{height:54px}
+h2.grad.rv{clip-path:inset(0 0 100% 0);transition:opacity .8s,transform .8s,clip-path 1.5s cubic-bezier(.3,.7,.2,1)}h2.grad.rv.in{clip-path:inset(0 0 -15% 0)}
+.stg>*{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .7s cubic-bezier(.2,.7,.2,1);transition-delay:calc(var(--i,0)*90ms)}.stg.in>*{opacity:1;transform:none}
+.gal.stg>*{transform:scale(1.07)}.gal.stg.in>*{transform:none}
+.toggle,.cue,.gal button,.poster,.links a{position:relative;overflow:hidden}
+.rip{position:absolute;border-radius:50%;background:currentColor;opacity:.28;transform:scale(0);animation:rip .65s ease-out forwards;pointer-events:none}@keyframes rip{to{transform:scale(1);opacity:0}}
+.toggle:active,.cue:active{transform:scale(.96)}
+.poster{transition:transform .25s ease-out}
+dialog[open]{animation:pop .4s cubic-bezier(.2,.8,.2,1)}@keyframes pop{from{opacity:0;transform:scale(.92) translateY(14px)}}
+dialog[open]::backdrop{animation:bd .3s}@keyframes bd{from{opacity:0}}
+.lb.sl .ph,.lb.sl img{animation:slin .4s ease}@keyframes slin{from{opacity:0;transform:translateX(calc(var(--d,1)*40px))}}
 
 /* lightbox */
 dialog{border:0;padding:0;background:transparent;max-width:min(92vw,1000px);width:100%;color:#fff;overflow:visible}
@@ -129,7 +140,7 @@ dialog::backdrop{background:rgba(10,14,13,.88)}
 .nv{position:absolute;top:50%;transform:translateY(-50%);background:rgba(0,0,0,.45);color:#fff;border:0;width:44px;height:44px;border-radius:50%;font-size:22px;cursor:pointer}
 .nv.p{left:10px}.nv.n{right:10px}
 
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation-duration:.01ms!important;animation-delay:0s!important;transition-duration:.01ms!important}.rv{opacity:1;transform:none}.stripes i{transform:none}.hero .in{opacity:1}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation-duration:.01ms!important;animation-delay:0s!important;transition-duration:.01ms!important}.rv{opacity:1;transform:none}.stripes i{transform:none}.hero .in{opacity:1}.stg>*,.gal.stg>*{opacity:1!important;transform:none!important}h2.grad.rv{clip-path:none!important}.case>.top{background:var(--green)!important}}
 </style>
 </head>
 <body>
@@ -276,9 +287,15 @@ const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 /* nav: progress, active link, hamburger */
 const bar=$('#bar'),links=$$('.links a'),menu=$('#menu'),burger=$('.burger');
+const hdr=$('header'),hin=$('.hero .in'),str=$$('.stripes i');let ready=false;
+function hero(){if(!ready)return;const p=Math.min(1,scrollY/(innerHeight*.8));
+  str.forEach((s,i)=>{const k=Math.min(1,Math.max(0,(p-i*.08)*1.6));s.style.transform='scaleY('+(1-k)+')'});
+  hin.style.transform='translateY('+Math.min(scrollY,innerHeight)*.3+'px)';hin.style.opacity=Math.max(0,1-p*1.8)}
+if(!reduce){str[5].addEventListener('animationend',()=>{str.forEach(s=>{s.style.animation='none';s.style.transform='scaleY(1)'});ready=true;hero()});
+  hin.addEventListener('animationend',()=>{hin.style.animation='none';hin.style.opacity=1;hero()})}
 function onScroll(){
   const h=document.documentElement,max=h.scrollHeight-innerHeight;
-  bar.style.transform='scaleX('+(max>0?Math.min(1,scrollY/max):0)+')';
+  bar.style.transform='scaleX('+(max>0?Math.min(1,scrollY/max):0)+')';hdr.classList.toggle('sc',scrollY>20);hero();
 }
 addEventListener('scroll',onScroll,{passive:true});onScroll();
 const secs=['about','conference','hsbc','aeon','award','contact'].map(id=>document.getElementById(id));
@@ -291,7 +308,8 @@ addEventListener('keydown',e=>{if(e.key==='Escape')closeMenu()});
 
 /* reveal */
 const rio=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');rio.unobserve(e.target)}}),{threshold:.12});
-$$('.rv').forEach(el=>rio.observe(el));
+$$('.stats,.skills,.caps,.cols,.gal').forEach(g=>{g.classList.add('stg');[...g.children].forEach((c,i)=>c.style.setProperty('--i',i))});
+$$('.rv,.stg').forEach(el=>rio.observe(el));
 
 /* animated stats */
 function count(el){
@@ -324,6 +342,7 @@ function show(){
   else if(!$('.ph',box)){}
   let ph=$('.ph',box);if(!ph){ph=document.createElement('span');ph.className='ph';ph.style.cssText='font:300 28px var(--serif);opacity:.85;text-align:center;padding:24px';box.prepend(ph)}
   ph.textContent=b.dataset.src?'':b.dataset.cap;
+  box.classList.remove('sl');void box.offsetWidth;box.classList.add('sl');
   cap.textContent=b.dataset.cap;cnt.textContent=items.length>1?(idx+1)+' / '+items.length:'';
   $$('.nv',box).forEach(n=>n.style.display=items.length>1?'':'none');
 }
@@ -331,9 +350,21 @@ $$('[data-gallery]').forEach(g=>{
   const bs=$$('button',g);
   bs.forEach((b,i)=>b.onclick=()=>{items=bs;idx=i;opener=b;show();dlg.showModal()});
 });
-const step=d=>{idx=(idx+d+items.length)%items.length;show()};
+const step=d=>{idx=(idx+d+items.length)%items.length;box.style.setProperty('--d',d);show()};
 $('.nv.p').onclick=()=>step(-1);$('.nv.n').onclick=()=>step(1);
 $('.lbx').onclick=()=>dlg.close();
+
+/* click ripple */
+document.addEventListener('pointerdown',e=>{const b=e.target.closest('.toggle,.cue,.gal button,.poster,.links a');if(!b||reduce)return;
+  const r=b.getBoundingClientRect(),d=Math.max(r.width,r.height)*2,s=document.createElement('span');s.className='rip';
+  s.style.cssText='width:'+d+'px;height:'+d+'px;left:'+(e.clientX-r.left-d/2)+'px;top:'+(e.clientY-r.top-d/2)+'px';
+  b.appendChild(s);setTimeout(()=>s.remove(),700)});
+
+/* poster tilt (mouse hover or touch drag) */
+const ps=$('.poster');
+if(ps&&!reduce){ps.parentElement.style.perspective='900px';
+  ps.addEventListener('pointermove',e=>{const r=ps.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;ps.style.transform='rotateY('+x*14+'deg) rotateX('+(-y*14)+'deg)'});
+  ['pointerleave','pointerup','pointercancel'].forEach(v=>ps.addEventListener(v,()=>ps.style.transform=''))}
 dlg.addEventListener('click',e=>{if(e.target===dlg)dlg.close()});
 dlg.addEventListener('close',()=>opener&&opener.focus());
 addEventListener('keydown',e=>{if(!dlg.open)return;if(e.key==='ArrowLeft')step(-1);if(e.key==='ArrowRight')step(1)});
