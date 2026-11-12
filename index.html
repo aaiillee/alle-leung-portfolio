@@ -8,253 +8,206 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--mint:#B6D3CD;--green:#0BCF9E;--teal:#0A7A86;--ink:#2B2D2C;--paper:#EEF5F3;--text:#2B2D2C;--muted:#4d5a57;--card:#fff;--ondark:#e6ece9;
---serif:'Fraunces',Georgia,serif;--sans:'Montserrat',system-ui,sans-serif;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--paper:#1f2322;--text:#e6ece9;--muted:#a9b8b4;--card:#2B2D2C}}
-:root[data-theme="dark"]{--paper:#1f2322;--text:#e6ece9;--muted:#a9b8b4;--card:#2B2D2C}
+:root{--mint:#B6D3CD;--pale:#E9F2EF;--green:#0BCF9E;--teal:#0A6A78;--ink:#2B2D2C;--cream:#F0E9DF;--serif:'Fraunces',Georgia,serif;--sans:'Montserrat',system-ui,sans-serif;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 *,*::before,*::after{box-sizing:inherit}
-html{scroll-behavior:smooth;scroll-padding-top:calc(72px + env(safe-area-inset-top,0px))}
-body{margin:0;background:var(--paper);color:var(--text);font:400 16px/1.65 var(--sans)}
+html{scroll-behavior:smooth;scroll-padding-top:72px}
+html.hc,html.hc *{cursor:none!important}
+body{margin:0;background:var(--mint);color:var(--ink);font:400 16px/1.65 var(--sans);overflow-x:hidden}
 a{color:inherit}
 :focus-visible{outline:3px solid var(--green);outline-offset:3px}
-.wrap{max-width:1120px;margin:0 auto;padding:0 24px}
-h1,h2,h3{font-family:var(--serif);font-weight:300;line-height:1.1;margin:0}
-.grad{background:linear-gradient(90deg,var(--green),var(--teal));-webkit-background-clip:text;background-clip:text;color:transparent}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+h1,h2,h3{font-family:var(--serif);font-weight:300;line-height:1.08;margin:0}
+button{font-family:inherit}
 
-/* nav */
-header{position:fixed;top:0;left:0;right:0;z-index:20;background:color-mix(in srgb,var(--paper) 88%,transparent);backdrop-filter:blur(10px);padding-top:env(safe-area-inset-top,0px)}
-nav{display:flex;align-items:center;justify-content:space-between;height:64px}
-.logo{font:600 15px var(--sans);letter-spacing:.14em;text-decoration:none}
+/* header */
+header{position:fixed;top:0;left:0;right:0;z-index:40;background:rgba(233,242,239,.9);padding-top:env(safe-area-inset-top,0px);transition:transform .4s,box-shadow .3s,background .3s}
+header.sc{box-shadow:0 6px 24px rgba(0,0,0,.12)}header.hide{transform:translateY(-100%)}
+header.m{background:transparent;color:var(--cream);box-shadow:none}
+nav{display:flex;align-items:center;justify-content:space-between;height:60px}
+.logo{font:600 14px var(--sans);letter-spacing:.16em;text-decoration:none}
 .links{display:flex;gap:28px;list-style:none;margin:0;padding:0}
-.links a{text-decoration:none;font-weight:500;font-size:14px;padding:6px 0;border-bottom:2px solid transparent}
-.links a.on,.links a:hover{border-color:var(--green)}
-#bar{position:absolute;left:0;bottom:0;height:3px;width:100%;background:linear-gradient(90deg,var(--green),var(--teal));transform:scaleX(0);transform-origin:left}
+.links a{text-decoration:none;font-weight:500;font-size:14px;padding:6px 0;background:linear-gradient(var(--green),var(--green)) left bottom/0 2px no-repeat;transition:background-size .3s}
+.links a:hover,.links a.on{background-size:100% 2px}
+#bar{position:fixed;top:0;left:0;right:0;height:3px;z-index:50;background:linear-gradient(90deg,var(--green),var(--teal));transform:scaleX(0);transform-origin:left}
 .burger{display:none;background:none;border:0;width:44px;height:44px;cursor:pointer;color:inherit}
-.burger span{display:block;width:24px;height:2px;background:currentColor;margin:5px auto;transition:.25s}
+.burger span{display:block;width:24px;height:2px;background:currentColor;margin:5px auto;transition:.3s}
 .burger[aria-expanded=true] span:nth-child(1){transform:translateY(7px) rotate(45deg)}
 .burger[aria-expanded=true] span:nth-child(2){opacity:0}
 .burger[aria-expanded=true] span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
-@media(max-width:760px){
-.burger{display:block}
-.links{position:absolute;top:100%;left:0;right:0;flex-direction:column;gap:0;background:var(--paper);padding:8px 24px 16px;transform:translateY(-8px);opacity:0;visibility:hidden;transition:.25s}
-.links.open{transform:none;opacity:1;visibility:visible}
-.links a{display:block;padding:14px 0;font-size:16px}}
+.ov{position:fixed;inset:0;z-index:30;background:var(--ink);display:none;flex-direction:column;justify-content:center;padding:0 32px;clip-path:circle(0 at calc(100% - 40px) 32px);transition:clip-path .7s cubic-bezier(.7,0,.2,1)}
+.ov.open{clip-path:circle(150% at calc(100% - 40px) 32px)}
+.ov a{font:300 clamp(2.2rem,10vw,3.4rem)/1.35 var(--serif);color:var(--cream);text-decoration:none;opacity:0;transform:translateY(20px);transition:.5s}
+.ov.open a{opacity:1;transform:none;transition-delay:calc(.25s + var(--i)*70ms)}
+@media(max-width:800px){.links{display:none}.burger{display:block}.ov{display:flex}}
 
-/* hero: the one orchestrated moment — teal stripes slide in */
-.hero{background:var(--mint);min-height:100svh;display:grid;place-items:center;text-align:center;position:relative;overflow:hidden;color:#fff;padding:96px 24px 48px}
-.stripes{position:absolute;inset:0;display:grid;grid-template-columns:repeat(6,1fr)}
-.stripes i{transform-origin:top;background:linear-gradient(90deg,var(--c1),var(--c2));transform:translateY(-100%);animation:drop .9s cubic-bezier(.2,.7,.2,1) forwards;animation-delay:calc(var(--n)*90ms)}
-@keyframes drop{to{transform:none}}
-.hero .in{position:relative;opacity:0;animation:fade 1s .7s forwards}
-@keyframes fade{to{opacity:1}}
-.hero small{letter-spacing:.3em;font-weight:500;font-size:14px}
-.hero h1{font-size:clamp(3.4rem,13vw,9rem);color:#F0E9DF;margin-top:.15em;text-shadow:0 2px 30px rgba(0,40,40,.25)}
-.hero p{margin:18px auto 0;max-width:34ch;font-size:15px}
-.cue{display:inline-block;margin-top:32px;text-decoration:none;border:1px solid rgba(255,255,255,.7);padding:12px 26px;border-radius:99px;font-weight:500;font-size:14px;transition:.2s}
+/* hero */
+.hero{min-height:100svh;position:relative;overflow:hidden;display:grid;place-items:center;text-align:center;color:#fff;padding:96px 24px 56px;background:var(--mint)}
+.stripes{position:absolute;inset:0 -60px;display:flex}
+.stripes i{flex:1;background:linear-gradient(90deg,var(--c1),var(--c2));transition:flex .8s cubic-bezier(.2,.7,.2,1);animation:drop .9s cubic-bezier(.2,.7,.2,1) backwards;animation-delay:calc(var(--n)*90ms)}
+.stripes i.on{flex:2.6}
+@keyframes drop{from{transform:translateY(-100%)}}
+.glow{position:absolute;inset:0;pointer-events:none;background:radial-gradient(460px circle at var(--mx,50%) var(--my,50%),rgba(255,255,255,.3),transparent 62%)}
+.hero .in{position:relative}
+.hero small{display:block;letter-spacing:.32em;font-weight:500;font-size:14px;animation:fade 1s .5s backwards}
+.hero h1{font-size:clamp(3.6rem,15vw,10.5rem);color:var(--cream);letter-spacing:.02em;margin:.1em 0}
+.ch{display:inline-block;position:relative;animation:up 1s cubic-bezier(.2,.7,.2,1) backwards;animation-delay:calc(.7s + var(--i)*80ms)}
+.ch::before{content:attr(data-c);position:absolute;left:-.035em;top:-.035em;color:transparent;-webkit-text-stroke:1px #fff}
+@keyframes up{from{opacity:0;transform:translateY(45%) rotate(4deg)}}@keyframes fade{from{opacity:0}}
+.hero p{margin:0 auto;max-width:34ch;animation:fade 1s 1.6s backwards}
+.cue{display:inline-block;margin-top:30px;border:1.5px solid rgba(255,255,255,.8);padding:13px 28px;border-radius:99px;font-weight:500;font-size:14px;text-decoration:none;transition:background .25s,color .25s;animation:fade 1s 1.8s backwards}
 .cue:hover{background:#fff;color:var(--ink)}
 
-section{padding:110px 0}
-/* about */
-#about{background:var(--mint);color:var(--ink)}
-.about{display:grid;grid-template-columns:1.1fr 1fr;gap:56px;align-items:center}
-.about h2{font-size:clamp(2.2rem,5vw,4rem)}
-.panel{background:var(--ink);color:var(--ondark);padding:40px;border-radius:4px}
-.panel b{display:block;color:var(--green);font-size:20px;letter-spacing:.02em}
-.panel .role{font-size:14px;letter-spacing:.08em;margin:2px 0 20px;opacity:.9}
-.panel p{margin:0;max-width:60ch}
-.skills{display:flex;flex-wrap:wrap;gap:8px;margin-top:24px;padding:0;list-style:none}
-.skills li{border:1px solid rgba(255,255,255,.25);border-radius:99px;padding:4px 14px;font-size:13px}
-@media(max-width:860px){.about{grid-template-columns:1fr;gap:32px}section{padding:80px 0}}
 
-/* work */
-.head{margin-bottom:48px;max-width:640px}
-.head h2{font-size:clamp(2rem,4.5vw,3.4rem)}
-.head p{color:var(--muted);margin:14px 0 0}
-.case{background:var(--card);border-radius:6px;overflow:hidden;margin-bottom:40px;box-shadow:0 1px 0 rgba(0,0,0,.08)}
-.case>.top{padding:36px 40px;color:var(--ink);background:linear-gradient(var(--green),var(--green)) left/0% 100% no-repeat,var(--card);transition:background-size 1s .25s cubic-bezier(.3,.7,.2,1)}.case.in>.top{background-size:100% 100%}
-.case .top small{font-weight:600;font-size:13px}
-.case .top h3{font-size:clamp(1.6rem,3vw,2.3rem);margin:6px 0}
-.case .top p{margin:0;opacity:.85}
-.gal{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;background:var(--paper)}
-.gal button{border:0;padding:0;cursor:zoom-in;aspect-ratio:4/3;position:relative;overflow:hidden;color:#fff;font:500 13px var(--sans);background:linear-gradient(135deg,var(--a),var(--b))}
-.gal button:first-child{grid-column:span 2;aspect-ratio:auto;min-height:260px}
-.gal button img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.gal button span{position:absolute;left:14px;bottom:12px;text-align:left;text-shadow:0 1px 6px rgba(0,0,0,.4)}
-.gal button:hover{filter:brightness(1.08)}
-.stats{display:flex;flex-wrap:wrap;gap:16px 56px;padding:36px 40px 8px}
-.stat b{display:block;font:300 clamp(2rem,4vw,3rem)/1 var(--serif);color:var(--teal)}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .stat b{color:var(--green)}}
-.stat span{font-size:13px;color:var(--muted)}
-.toggle{margin:20px 40px 36px;display:inline-flex;align-items:center;gap:10px;background:none;border:1.5px solid var(--text);color:var(--text);border-radius:99px;padding:10px 22px;font:500 14px var(--sans);cursor:pointer}
-.toggle:hover{background:var(--text);color:var(--card)}
-.toggle i{display:inline-block;transition:transform .3s;font-style:normal}
-.toggle[aria-expanded=true] i{transform:rotate(180deg)}
-.more{display:grid;grid-template-rows:0fr;transition:grid-template-rows .45s ease}
-.more.open{grid-template-rows:1fr}
-.more>div{overflow:hidden}
-.cols{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;padding:8px 40px 40px}
-.cols h4{margin:0 0 6px;font:600 15px var(--sans)}
-.cols p{margin:0;color:var(--muted);font-size:15px}
-.caps{padding:0 40px 40px;display:flex;flex-wrap:wrap;gap:8px}
-.caps span{background:var(--paper);border-radius:99px;padding:5px 14px;font-size:13px}
-@media(max-width:860px){.cols{grid-template-columns:1fr;gap:20px}.case>.top,.stats,.cols,.caps{padding-left:24px;padding-right:24px}.toggle{margin-left:24px}.gal{grid-template-columns:1fr 1fr}.gal button:first-child{grid-column:span 2;min-height:200px}}
+/* marquee */
+.mq{background:var(--ink);color:var(--cream);overflow:hidden;white-space:nowrap;padding:18px 0}
+.mq div{display:inline-flex;animation:mq 30s linear infinite}
+.mq span{font:300 clamp(1.3rem,3vw,2rem)/1 var(--serif);display:inline-flex;align-items:center;gap:40px;padding-right:40px}
+.mq span::after{content:"";width:34px;height:2px;background:var(--green)}
+@keyframes mq{to{transform:translateX(-50%)}}
+
+/* about: scroll-scrubbed quote */
+.aw{height:auto}
+#about{background:var(--pale)}
+.ai{padding:130px 0 30px}
+.q{font:300 clamp(1.9rem,4.8vw,3.7rem)/1.15 var(--serif);max-width:17em}
+.wd{color:rgba(43,45,44,.16);transition:color .45s}.wd.lit{color:#0A5560}
+.panel{display:grid;grid-template-columns:1fr 1.5fr;gap:48px;padding:56px 0 110px;border-top:1px solid rgba(43,45,44,.15)}
+.panel b{display:block;font:300 clamp(1.8rem,3.4vw,2.6rem)/1.1 var(--serif);color:var(--teal)}
+.panel .role{font-size:13px;letter-spacing:.12em;margin-top:10px;opacity:.7}
+.panel p{margin:0 0 22px;font-size:17px;max-width:60ch}
+.chips{display:flex;flex-wrap:wrap;gap:8px;list-style:none;margin:0;padding:0}
+.chips li,.chips span{border:1px solid rgba(43,45,44,.3);border-radius:99px;padding:4px 14px;font-size:13px}
+@media(max-width:800px){.panel{grid-template-columns:1fr;gap:20px;padding:40px 0 70px}}
+
+/* projects */
+.proj{padding:110px 0;background:var(--bg);color:var(--tx)}
+.ink{--bg:var(--ink);--tx:var(--cream);--ac:var(--green);--ln:rgba(255,255,255,.28)}
+.grn{--bg:var(--green);--tx:var(--ink);--ac:var(--ink);--ln:rgba(0,0,0,.3)}
+.tl{--bg:var(--teal);--tx:#fff;--ac:#7CF2D2;--ln:rgba(255,255,255,.35)}
+.pgrid{display:grid;grid-template-columns:5fr 7fr;gap:64px;align-items:start}
+.side{position:sticky;top:96px}
+.num{font:300 clamp(5.5rem,13vw,10rem)/.9 var(--serif);color:transparent;-webkit-text-stroke:1.5px var(--ac)}
+.side small{font-weight:600;font-size:13px;display:block;margin-bottom:6px}
+.side h3{font-size:clamp(2rem,4vw,3.1rem);margin:14px 0 8px}
+.side .sub{font-weight:500;margin:0}.side .meta{margin:4px 0 0;opacity:.8;font-size:15px}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:22px 28px;margin-top:36px}
+.stat b{display:block;font:300 clamp(2.4rem,4.5vw,3.4rem)/1 var(--serif);color:var(--ac)}
+.stat span{font-size:13px;opacity:.85}
+.gal{display:grid;grid-template-columns:1fr 1fr;gap:14px;padding-bottom:36px}.gal button:first-child{grid-column:span 2;aspect-ratio:16/9}
+.gal button{aspect-ratio:4/3;border:0;border-radius:10px;position:relative;overflow:hidden;color:#fff;font:500 13px var(--sans);cursor:pointer;background:linear-gradient(135deg,var(--a),var(--b));transition:transform .4s}
+.gal button:hover{transform:scale(1.02)}
+.gal img{position:absolute;left:0;top:-25%;width:100%;height:150%;object-fit:cover}
+.pl{position:absolute;inset:-25% -10%;background:radial-gradient(circle at 30% 30%,rgba(255,255,255,.3),transparent 50%),radial-gradient(circle at 80% 85%,rgba(0,0,0,.25),transparent 55%);pointer-events:none}
+
+.gal span{position:absolute;left:16px;bottom:14px;text-align:left;text-shadow:0 1px 8px rgba(0,0,0,.5)}
+.tip{font-size:12px;opacity:.75;margin:6px 0 22px}
+.toggle,.cue,.gal button,.poster{position:relative;overflow:hidden}
+.toggle{display:inline-flex;align-items:center;gap:12px;background:none;border:1.5px solid currentColor;color:inherit;border-radius:99px;padding:11px 24px;font-weight:500;font-size:14px;cursor:pointer;transition:background .25s,color .25s}
+.toggle:hover{background:var(--tx);color:var(--bg)}
+.toggle i{font-style:normal;font-size:20px;line-height:1;transition:transform .35s}
+.toggle[aria-expanded=true] i{transform:rotate(45deg)}
+.more{display:grid;grid-template-rows:0fr;transition:grid-template-rows .55s ease}
+.more.open{grid-template-rows:1fr}.more>div{overflow:hidden}
+.cols{display:grid;gap:22px;padding:30px 0 20px}
+.cols div{border-left:2px solid var(--ac);padding-left:18px}
+.cols h4{margin:0 0 4px;font-weight:600;font-size:15px}.cols p{margin:0;opacity:.9}
+.caps{display:flex;flex-wrap:wrap;gap:8px;padding-bottom:6px}
+.caps span{border:1px solid var(--ln);border-radius:99px;padding:4px 14px;font-size:13px}
+@media(max-width:860px){.pgrid{grid-template-columns:1fr;gap:36px}.side{position:static}.proj{padding:80px 0}}
 
 /* award */
-#award{background:var(--green);color:var(--ink)}
-.award{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
-.award h2{font-size:clamp(2rem,4.5vw,3.4rem);margin:8px 0 24px}
-.award h4{margin:18px 0 2px;font:600 15px var(--sans)}.award p{margin:0;max-width:52ch}
-.poster{aspect-ratio:3/4;max-height:520px;margin:0 auto;border:0;padding:0;cursor:zoom-in;border-radius:3px;background:radial-gradient(circle at 50% 40%,#555,#1b1b1b);box-shadow:0 20px 50px rgba(0,0,0,.3);width:min(100%,390px);position:relative;color:#ddd;font:500 13px var(--sans)}
-.poster span{position:absolute;bottom:14px;left:14px}
-@media(max-width:860px){.award{grid-template-columns:1fr;gap:32px}}
+#award{background:var(--pale);padding:110px 0}
+.award{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
+.award h2{font-size:clamp(2rem,4.5vw,3.4rem);margin:8px 0 26px}
+.award h4{margin:18px 0 2px;font-weight:600;font-size:15px}.award p{margin:0;max-width:52ch}
+.poster{display:block;aspect-ratio:3/4;width:min(100%,380px);margin:0 auto;border:0;padding:0;border-radius:3px;cursor:pointer;color:#ccc;font:500 13px var(--sans);background:radial-gradient(circle,#e4e4e4 1.2px,transparent 1.8px) 0 0/11px 11px,linear-gradient(160deg,#444,#161616);box-shadow:0 24px 50px rgba(0,0,0,.3);transition:transform .25s ease-out}
+.poster span{position:absolute;left:14px;bottom:12px;background:rgba(0,0,0,.6);padding:2px 10px;border-radius:99px}
+@media(max-width:860px){.award{grid-template-columns:1fr;gap:36px}#award{padding:80px 0}}
 
 /* contact */
-#contact{background:var(--mint);color:var(--ink);text-align:center}
-#contact h2{font-size:clamp(1.8rem,4.2vw,3.2rem)}
-#contact p{max-width:60ch;margin:22px auto}
-.contact a{font-weight:500;text-underline-offset:4px}
+.end{padding:140px 0 110px;text-align:center;color:#fff;background:linear-gradient(90deg,#6f8f8e 0 16.66%,#4f9e98 16.66% 33.33%,#2f9c92 33.33% 50%,#1d8f93 50% 66.66%,#14808a 66.66% 83.33%,#0A6A78 83.33%)}
+.end h2{font-size:clamp(2rem,5.6vw,4.6rem);color:var(--cream);max-width:14em;margin:0 auto}
+.end p{max-width:56ch;margin:26px auto 36px}
+.mail{display:inline-block;font:500 16px/1.65 var(--sans);text-decoration:none;background:linear-gradient(#fff,#fff) left bottom/100% 2px no-repeat;transition:background-size .4s,color .4s}
+.mail:hover{background-size:100% 100%;color:var(--ink)}
+.end .in2{margin-top:26px}.in2 a{font-weight:500;text-underline-offset:5px}
 footer{background:var(--ink);color:#9fb0ab;text-align:center;font-size:13px;padding:24px}
 
-/* reveal */
-.rv{opacity:0;transform:translateY(28px);transition:opacity .8s ease,transform .8s ease}
-.rv.in{opacity:1;transform:none}
-header{transition:box-shadow .3s}header.sc{box-shadow:0 6px 24px rgba(0,0,0,.12)}nav{transition:height .3s}header.sc nav{height:54px}
-h2.grad.rv{clip-path:inset(0 0 100% 0);transition:opacity .8s,transform .8s,clip-path 1.5s cubic-bezier(.3,.7,.2,1)}h2.grad.rv.in{clip-path:inset(0 0 -15% 0)}
-.stg>*{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .7s cubic-bezier(.2,.7,.2,1);transition-delay:calc(var(--i,0)*90ms)}.stg.in>*{opacity:1;transform:none}
-.gal.stg>*{transform:scale(1.07)}.gal.stg.in>*{transform:none}
-.toggle,.cue,.gal button,.poster,.links a{position:relative;overflow:hidden}
-.rip{position:absolute;border-radius:50%;background:currentColor;opacity:.28;transform:scale(0);animation:rip .65s ease-out forwards;pointer-events:none}@keyframes rip{to{transform:scale(1);opacity:0}}
-.toggle:active,.cue:active{transform:scale(.96)}
-.poster{transition:transform .25s ease-out}
-dialog[open]{animation:pop .4s cubic-bezier(.2,.8,.2,1)}@keyframes pop{from{opacity:0;transform:scale(.92) translateY(14px)}}
-dialog[open]::backdrop{animation:bd .3s}@keyframes bd{from{opacity:0}}
-.lb.sl .ph,.lb.sl img{animation:slin .4s ease}@keyframes slin{from{opacity:0;transform:translateX(calc(var(--d,1)*40px))}}
-
-/* lightbox */
-dialog{border:0;padding:0;background:transparent;max-width:min(92vw,1000px);width:100%;color:#fff;overflow:visible}
+/* motion + overlays */
+.rv{opacity:0;transform:translateY(30px);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.7,.2,1)}.rv.in{opacity:1;transform:none}
+.stg>*{opacity:0;transform:translateY(24px);transition:opacity .6s,transform .7s cubic-bezier(.2,.7,.2,1);transition-delay:calc(var(--i,0)*90ms)}.stg.in>*{opacity:1;transform:none}
+.rip{position:absolute;border-radius:50%;background:currentColor;opacity:.3;transform:scale(0);animation:rip .65s ease-out forwards;pointer-events:none}@keyframes rip{to{transform:scale(1);opacity:0}}
+/* parallax layers */
+.proj,#award,.end,#about{position:relative;overflow:clip}
+.proj>.wrap,.end>.wrap,#award>.wrap,.ai>.wrap{position:relative;z-index:1}
+.dec{position:absolute;border-radius:50%;pointer-events:none;will-change:transform,translate}
+.dec.r{border:1.5px solid var(--ac,#0A5560);opacity:.3}.dec.f{background:var(--ac,#0A5560);opacity:.1}
+.hero,.end{--ac:#fff}#award{--ac:var(--teal)}
+.dec,.ghost{transform:translate(calc(var(--px,0)*var(--d,36)*1px),calc(var(--py,0)*var(--d,36)*1px));transition:transform .7s ease-out}.dec.r{--d:34}.dec.f{--d:-50}.ghost{--d:-60}.dec.r.fl{opacity:.55}.dec.f.fl{opacity:.16}
+.end{background-size:140% 100%}
+body{background:var(--ink)}
+.dec{border-radius:0}
+.dec.r{border:0;background:var(--ac);width:2px!important;height:48%!important;aspect-ratio:auto!important}
+.dec.f{background:linear-gradient(180deg,var(--ac),transparent);width:clamp(40px,8vw,110px)!important;height:64%!important;aspect-ratio:auto!important;opacity:.14}
+.top{position:fixed;right:20px;bottom:calc(20px + env(safe-area-inset-bottom,0px));z-index:45;background:var(--cream);color:var(--ink);border:0;border-radius:99px;padding:12px 20px;font:600 13px var(--sans);letter-spacing:.06em;box-shadow:0 8px 24px rgba(0,0,0,.3);cursor:pointer;opacity:0;transform:translateY(16px);pointer-events:none;transition:opacity .35s,transform .35s,background .25s}
+.top.show{opacity:1;transform:none;pointer-events:auto}.top:hover{background:var(--green)}
+.ctr{position:fixed;left:20px;bottom:calc(20px + env(safe-area-inset-bottom,0px));z-index:45;background:var(--cream);color:var(--ink);border-radius:99px;padding:9px 16px;font:500 12px var(--sans);letter-spacing:.08em;text-transform:uppercase;box-shadow:0 8px 24px rgba(0,0,0,.3);opacity:0;transition:opacity .35s;pointer-events:none}.ctr.show{opacity:1}.ctr b{font-weight:600}.ctr span{opacity:.65;margin-left:6px}
+.mw{display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.14em}.mw>span{display:inline-block;transform:translateY(110%);transition:transform .9s cubic-bezier(.2,.7,.2,1);transition-delay:calc(var(--i)*70ms)}.in .mw>span{transform:none}
+.num{transform:scale(calc(1.45 - .45*var(--t,1)));transform-origin:0 60%}
+.proj .dec,#award .dec,.end .dec{scale:calc(.45 + .55*var(--t,1))}
+.cur{position:fixed;left:0;top:0;z-index:99;pointer-events:none}
+.cur::before{content:attr(data-l);position:absolute;transform:translate(-50%,-50%);width:14px;height:14px;border-radius:99px;background:var(--ink);border:2px solid #fff;display:grid;place-items:center;font:500 0/1 var(--sans);color:#fff;overflow:hidden;white-space:nowrap;transition:width .3s,height .3s}
+.cur.big::before{width:76px;height:76px;font-size:12px}
+dialog{border:0;padding:0;background:transparent;max-width:min(92vw,1000px);width:100%;color:#fff;overflow:visible;animation:pop .4s cubic-bezier(.2,.8,.2,1)}
 dialog::backdrop{background:rgba(10,14,13,.88)}
-.lb{aspect-ratio:16/10;border-radius:4px;display:grid;place-items:center;background:linear-gradient(135deg,var(--a),var(--b));position:relative;overflow:hidden}
+@keyframes pop{from{opacity:0;transform:scale(.92) translateY(14px)}}
+.lb{aspect-ratio:16/10;border-radius:6px;display:grid;place-items:center;background:linear-gradient(135deg,var(--a),var(--b));position:relative;overflow:hidden}
 .lb img{width:100%;height:100%;object-fit:contain;background:#000}
+.lb.sl .ph,.lb.sl img{animation:slin .4s ease}@keyframes slin{from{opacity:0;transform:translateX(calc(var(--d,1)*40px))}}
 .cap{padding:14px 4px;font-size:14px;display:flex;justify-content:space-between;gap:16px}
 .lbx{position:absolute;top:-48px;right:0;background:none;border:0;color:#fff;font-size:32px;cursor:pointer;width:44px;height:44px}
-.nv{position:absolute;top:50%;transform:translateY(-50%);background:rgba(0,0,0,.45);color:#fff;border:0;width:44px;height:44px;border-radius:50%;font-size:22px;cursor:pointer}
+.nv{position:absolute;top:50%;transform:translateY(-50%);background:rgba(0,0,0,.45);color:#fff;border:0;width:44px;height:44px;border-radius:50%;font-size:22px;cursor:pointer;z-index:2}
 .nv.p{left:10px}.nv.n{right:10px}
-
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation-duration:.01ms!important;animation-delay:0s!important;transition-duration:.01ms!important}.rv{opacity:1;transform:none}.stripes i{transform:none}.hero .in{opacity:1}.stg>*,.gal.stg>*{opacity:1!important;transform:none!important}h2.grad.rv{clip-path:none!important}.case>.top{background:var(--green)!important}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation-duration:.01ms!important;animation-delay:0s!important;transition-duration:.01ms!important}.rv,.stg>*{opacity:1!important;transform:none!important}.mq div{animation:none}.wd{color:#0A5560}.dec,.ghost{transform:none!important}.mw>span{transform:none!important}}
 </style>
 </head>
 <body>
+<div id="bar"></div>
 <header>
   <div class="wrap"><nav aria-label="Main">
     <a class="logo" href="#top">ALLE LEUNG</a>
+    <ul class="links" id="links">
+      <li><a href="#about">About</a></li><li><a href="#p1">Project 01</a></li><li><a href="#p2">Project 02</a></li><li><a href="#p3">Project 03</a></li><li><a href="#award">Award</a></li><li><a href="#contact">Contact</a></li>
+    </ul>
     <button class="burger" aria-label="Menu" aria-expanded="false" aria-controls="menu"><span></span><span></span><span></span></button>
-    <ul class="links" id="menu">
-      <li><a href="#about">About</a></li>
-      <li><a href="#conference">Project 01</a></li>
-      <li><a href="#hsbc">Project 02</a></li>
-      <li><a href="#aeon">Project 03</a></li>
-      <li><a href="#award">Award</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul></nav></div>
-  <div id="bar"></div>
+  </nav></div>
 </header>
+<div class="ov" id="menu"></div>
 
-<main id="top">
-<div class="hero">
-  <div class="stripes" aria-hidden="true">
-    <i style="--n:0;--c1:#a4bcb9;--c2:#5f7d80"></i><i style="--n:1;--c1:#86b3ac;--c2:#4d7f84"></i><i style="--n:2;--c1:#68b8a8;--c2:#2d808a"></i><i style="--n:3;--c1:#58bfa6;--c2:#1b7389"></i><i style="--n:4;--c1:#3ab59b;--c2:#17607a"></i><i style="--n:5;--c1:#00b384;--c2:#075f6c"></i>
-  </div>
+<main>
+<div class="hero" id="top">
+  <div class="stripes" id="stripes" aria-hidden="true"></div><div class="glow" aria-hidden="true"></div>
+  
   <div class="in">
-    <small>ALLE LEUNG</small>
-    <h1>Portfolio</h1>
-    <p>Creative management, brand and events.</p>
-    <a class="cue" href="#about">View my work</a>
+    <small data-px="-.15">ALLE LEUNG</small>
+    <h1 id="t">Portfolio</h1>
+    <p data-px=".12">Creative management, brand and events.</p>
+    <a class="cue mag" href="#about" data-cur="Go" data-px=".22">Start the journey</a>
   </div>
+  
 </div>
+<div class="mq" id="mq" aria-hidden="true"></div>
 
-<section id="about"><div class="wrap about">
-  <h2 class="grad rv">“Connecting creative thinking, strategic execution and meaningful experiences.”</h2>
-  <div class="panel rv">
-    <b>ALLE LEUNG</b>
-    <div class="role">CREATIVE MANAGEMENT · BRAND · EVENTS</div>
-    <p>Results-driven professional with extensive experience in project management, stakeholder engagement, strategic communications, and event execution. Proven ability to lead complex initiatives, manage diverse stakeholders, and deliver high-quality outcomes in dynamic environments. Known for strong organisational, analytical, and problem-solving skills, coupled with a proactive approach to operational excellence and continuous improvement.</p>
-    <ul class="skills"><li>Project management</li><li>Stakeholder engagement</li><li>Strategic communications</li><li>Event execution</li></ul>
-  </div>
-</div></section>
+<section id="about">
+  <div class="aw"><div class="ai"><div class="wrap"><div class="q" id="q" aria-label="Connecting creative thinking, strategic execution and meaningful experiences.">“Connecting creative thinking, strategic execution and meaningful experiences.”</div></div></div></div>
+  <div class="wrap"><div class="panel rv">
+    <div><b>ALLE LEUNG</b><div class="role">CREATIVE MANAGEMENT · BRAND · EVENTS</div></div>
+    <div><p>Results-driven professional with extensive experience in project management, stakeholder engagement, strategic communications, and event execution. Proven ability to lead complex initiatives, manage diverse stakeholders, and deliver high-quality outcomes in dynamic environments. Known for strong organisational, analytical, and problem-solving skills, coupled with a proactive approach to operational excellence and continuous improvement.</p>
+    <ul class="chips"><li>Project management</li><li>Stakeholder engagement</li><li>Strategic communications</li><li>Event execution</li></ul></div>
+  </div></div>
+</section>
 
-<section id="work"><div class="wrap">
-  <div class="head rv"><h2>Selected work</h2><p>Three projects across events, regional digital and brand leadership. Select an image to enlarge it, or open a case study for the full story.</p></div>
-
-  <article class="case rv" id="conference">
-    <div class="top"><small>Project 01</small><h3>International Conference | Project Delivery &amp; Experience</h3><p>GaPI Conference 2026, The Hong Kong Polytechnic University</p></div>
-    <div class="gal" data-gallery>
-      <button style="--a:#7a5a45;--b:#2c1f1a" data-cap="Main hall with hybrid panel discussion"><span>Main hall, hybrid panel</span></button>
-      <button style="--a:#0b8a7a;--b:#10303a" data-cap="Opening ceremony stage, GaPI 2026"><span>Opening ceremony</span></button>
-      <button style="--a:#c0392b;--b:#2b2d2c" data-cap="Keynote session"><span>Keynote</span></button>
-    </div>
-    <div class="stats">
-      <div class="stat"><b data-to="3">0</b><span>Days of conference</span></div>
-      <div class="stat"><b data-to="180" data-suf="+">0</b><span>Paper submissions</span></div>
-      <div class="stat"><b data-to="300">0</b><span>Average daily participants</span></div>
-      <div class="stat"><b data-to="20" data-suf="+">0</b><span>Countries &amp; regions</span></div>
-    </div>
-    <button class="toggle" aria-expanded="false" aria-controls="m1">Read case study <i>▾</i></button>
-    <div class="more" id="m1"><div>
-      <div class="cols">
-        <div><h4>Project overview</h4><p>A three-day international conference bringing together presenters from more than 20 countries and regions, supported by a programme of paper submissions and coordinated conference activities.</p></div>
-        <div><h4>My role</h4><p>As Event Implementation Lead, I coordinated end-to-end conference planning and curation, working with conference committees and coordinating presenter arrangements and paper submissions.</p></div>
-        <div><h4>Project impact</h4><p>Contributed to the planning and delivery of a large-scale international conference through cross-stakeholder coordination, submission management and speaker logistics.</p></div>
-      </div>
-      <div class="caps"><span>Project Coordination</span><span>Stakeholder Management</span><span>Event Curation</span><span>Operational Planning</span><span>Data Analysis</span></div>
-    </div></div>
-  </article>
-
-  <article class="case rv" id="hsbc">
-    <div class="top"><small>Project 02</small><h3>Regional Digital Campaigns | Creative Execution &amp; Digital Performance</h3><p>Premier 3.0 Migration, HSBC · 2019–2023</p></div>
-    <div class="gal" data-gallery>
-      <button style="--a:#b3202c;--b:#5a0f18" data-cap="Premier campaign landing page"><span>Landing page</span></button>
-      <button style="--a:#d94a4a;--b:#7a1d25" data-cap="Direct email"><span>Direct email</span></button>
-      <button style="--a:#8a8f93;--b:#2b2d2c" data-cap="Mobile application"><span>Mobile app</span></button>
-    </div>
-    <div class="stats">
-      <div class="stat"><b data-to="10" data-suf="+">0</b><span>APAC markets</span></div>
-      <div class="stat"><b data-to="1" data-suf="M+">0</b><span>Targeted users reached</span></div>
-      <div class="stat"><b data-to="26" data-suf="%">0</b><span>Conversion rate uplift</span></div>
-    </div>
-    <button class="toggle" aria-expanded="false" aria-controls="m2">Read case study <i>▾</i></button>
-    <div class="more" id="m2"><div>
-      <div class="cols">
-        <div><h4>Project overview</h4><p>Delivered visual strategies and promotional materials across public websites, direct emails and mobile applications, supporting digital campaigns across 10 APAC markets.</p></div>
-        <div><h4>My role</h4><p>Worked with content specialists and UX designers to develop and deliver digital creative assets, improve workflow efficiency, and maintain brand and accessibility standards.</p></div>
-        <div><h4>Project impact</h4><p>Translated creative requirements into consistent, scalable digital communications while fostering cross-functional collaboration and supporting measurable campaign performance.</p></div>
-      </div>
-      <div class="caps"><span>Digital Creative Strategy</span><span>Multi-Channel Execution</span><span>Regional Stakeholder Coordination</span><span>Brand Consistency</span><span>Workflow Improvement</span></div>
-    </div></div>
-  </article>
-
-  <article class="case rv" id="aeon">
-    <div class="top"><small>Project 03</small><h3>Integrated Brand Campaigns | Brand Management &amp; Creative Leadership</h3><p>AEON Credit Service (Asia) · 2015–2019</p></div>
-    <div class="gal" data-gallery>
-      <button style="--a:#2b2d2c;--b:#6b3a8a" data-cap="AEON Card Premium: digital and direct mail"><span>AEON Card Premium</span></button>
-      <button style="--a:#d9362b;--b:#8a1f1a" data-cap="Tastes of Japan 2018 key visual"><span>Tastes of Japan key visual</span></button>
-      <button style="--a:#a8302a;--b:#2b2d2c" data-cap="Tastes of Japan 2018 in-store and outdoor"><span>In-store &amp; outdoor</span></button>
-    </div>
-    <div class="stats">
-      <div class="stat"><b data-to="2" data-pre="$" data-suf="M">0</b><span>Media plans managed</span></div>
-      <div class="stat"><b data-to="15" data-pre="+" data-suf="%">0</b><span>Brand awareness</span></div>
-      <div class="stat"><b data-to="20" data-pre="+" data-suf="%">0</b><span>Customer engagement</span></div>
-    </div>
-    <button class="toggle" aria-expanded="false" aria-controls="m3">Read case study <i>▾</i></button>
-    <div class="more" id="m3"><div>
-      <div class="cols">
-        <div><h4>Project overview</h4><p>Managed integrated marketing activities designed to strengthen brand awareness and customer engagement, coordinating mass campaigns across PR events, television commercials and digital media.</p></div>
-        <div><h4>My role</h4><p>Led a team of four creative professionals and coordinated external agencies, budgets and timelines. Managed media plans valued at $2M and supported the delivery of at least four mass campaigns annually.</p></div>
-        <div><h4>Project impact</h4><p>Delivered a cohesive brand-building initiative by aligning creative direction, campaign strategy, team leadership, and multi-channel execution to maximise campaign effectiveness.</p></div>
-      </div>
-      <div class="caps"><span>Brand Management</span><span>Integrated Marketing</span><span>Media Planning</span><span>Team Leadership</span><span>Agency Management</span><span>Budget and Timeline Control</span></div>
-    </div></div>
-  </article>
-</div></section>
+<div id="projects"></div>
 
 <section id="award"><div class="wrap award">
   <div class="rv">
@@ -263,17 +216,20 @@ dialog::backdrop{background:rgba(10,14,13,.88)}
     <h4>Theme</h4><p>Big World Small Village</p>
     <h4>Design concept</h4><p>By arranging small human figures into religious symbols, the poster visualises religion's ability to foster community and belonging, while also acknowledging the separations that can result from different beliefs and values.</p>
   </div>
-  <div data-gallery class="rv"><button class="poster" data-cap="Big World Small Village — award-winning poster" style="--a:#555;--b:#1b1b1b"><span>Award-winning poster</span></button></div>
+  <div class="rv" data-gallery><button class="poster" data-cur="View" data-cap="Big World Small Village — award-winning poster" style="--a:#555;--b:#1b1b1b"><span>Award-winning poster</span></button></div>
 </div></section>
 
-<section id="contact"><div class="wrap">
-  <h2 class="grad rv">Creative vision. Thoughtful execution. Measurable impact.</h2>
+<section class="end" id="contact"><div class="wrap">
+  <h2 class="rv">Creative vision. Thoughtful execution. Measurable impact.</h2>
   <p class="rv">Drawing on experience in design, branding, and project delivery, I enjoy bringing people and ideas together to create meaningful outcomes through collaboration and thoughtful execution.</p>
-  <p class="contact rv"><b>Email</b> <a href="mailto:larcching@gmail.com">larcching@gmail.com</a> &nbsp;|&nbsp; <b>LinkedIn</b> <a href="https://www.linkedin.com/in/alle-leung-313571105" target="_blank" rel="noopener">alle-leung-313571105</a></p>
+  
+  <div class="in2 rv"><span style="white-space:nowrap"><b>Email</b> <a href="mailto:larcching@gmail.com" data-cur="Email">larcching@gmail.com</a></span> &nbsp;|&nbsp; <span style="white-space:nowrap"><b>LinkedIn</b> <a href="https://www.linkedin.com/in/alle-leung-313571105" target="_blank" rel="noopener">alle-leung-313571105</a></span></div>
 </div></section>
 </main>
 <footer>© 2026 Alle Leung</footer>
 
+<div class="ctr" id="ctr" aria-hidden="true"></div>
+<button class="top" id="toTop" aria-label="Back to top" data-cur="Top">↑ Top</button>
 <dialog id="lb" aria-label="Image viewer">
   <button class="lbx" aria-label="Close">×</button>
   <div class="lb" id="lbimg"><button class="nv p" aria-label="Previous">‹</button><button class="nv n" aria-label="Next">›</button></div>
@@ -285,89 +241,147 @@ dialog::backdrop{background:rgba(10,14,13,.88)}
 const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
 const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-/* nav: progress, active link, hamburger */
-const bar=$('#bar'),links=$$('.links a'),menu=$('#menu'),burger=$('.burger');
-const hdr=$('header'),hin=$('.hero .in'),str=$$('.stripes i');let ready=false;
-function hero(){if(!ready)return;const p=Math.min(1,scrollY/(innerHeight*.8));
-  str.forEach((s,i)=>{const k=Math.min(1,Math.max(0,(p-i*.08)*1.6));s.style.transform='scaleY('+(1-k)+')'});
-  hin.style.transform='translateY('+Math.min(scrollY,innerHeight)*.3+'px)';hin.style.opacity=Math.max(0,1-p*1.8)}
-if(!reduce){str[5].addEventListener('animationend',()=>{str.forEach(s=>{s.style.animation='none';s.style.transform='scaleY(1)'});ready=true;hero()});
-  hin.addEventListener('animationend',()=>{hin.style.animation='none';hin.style.opacity=1;hero()})}
-function onScroll(){
-  const h=document.documentElement,max=h.scrollHeight-innerHeight;
-  bar.style.transform='scaleX('+(max>0?Math.min(1,scrollY/max):0)+')';hdr.classList.toggle('sc',scrollY>20);hero();
-}
-addEventListener('scroll',onScroll,{passive:true});onScroll();
-const secs=['about','conference','hsbc','aeon','award','contact'].map(id=>document.getElementById(id));
-new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)links.forEach(a=>a.classList.toggle('on',a.getAttribute('href')==='#'+e.target.id))}),{rootMargin:'-45% 0px -50% 0px'}).observe&&secs.forEach(s=>{
-  new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)links.forEach(a=>a.classList.toggle('on',a.getAttribute('href')==='#'+s.id))}),{rootMargin:'-45% 0px -50% 0px'}).observe(s)});
-function closeMenu(){menu.classList.remove('open');burger.setAttribute('aria-expanded','false')}
-burger.onclick=()=>{const o=menu.classList.toggle('open');burger.setAttribute('aria-expanded',o)};
-links.forEach(a=>a.addEventListener('click',closeMenu));
-addEventListener('keydown',e=>{if(e.key==='Escape')closeMenu()});
+/* content: edit images by adding a 4th item [colourA, colourB, caption, 'images/photo.jpg'] */
+const P=[
+{id:'p1',n:'01',th:'ink',t:'International Conference',s:'Project Delivery & Experience',m:'GaPI Conference 2026, The Hong Kong Polytechnic University',
+ st:[[3,'','','Days of conference'],[180,'','+','Paper submissions'],[300,'','','Average daily participants'],[20,'','+','Countries & regions']],
+ g:[['#7a5a45','#2c1f1a','Main hall with hybrid panel discussion'],['#0b8a7a','#10303a','Opening ceremony stage, GaPI 2026'],['#c0392b','#2b2d2c','Keynote session']],
+ o:'A three-day international conference bringing together presenters from more than 20 countries and regions, supported by a programme of paper submissions and coordinated conference activities.',
+ r:'As Event Implementation Lead, I coordinated end-to-end conference planning and curation, working with conference committees and coordinating presenter arrangements and paper submissions.',
+ i:'Contributed to the planning and delivery of a large-scale international conference through cross-stakeholder coordination, submission management and speaker logistics.',
+ c:['Project Coordination','Stakeholder Management','Event Curation','Operational Planning','Data Analysis']},
+{id:'p2',n:'02',th:'grn',t:'Regional Digital Campaigns',s:'Creative Execution & Digital Performance',m:'Premier 3.0 Migration, HSBC · 2019–2023',
+ st:[[10,'','+','APAC markets'],[1,'','M+','Targeted users reached'],[26,'','%','Conversion rate uplift']],
+ g:[['#b3202c','#5a0f18','Premier campaign landing page'],['#d94a4a','#7a1d25','Direct email'],['#6f7478','#2b2d2c','Mobile application']],
+ o:'Delivered visual strategies and promotional materials across public websites, direct emails and mobile applications, supporting digital campaigns across 10 APAC markets.',
+ r:'Worked with content specialists and UX designers to develop and deliver digital creative assets, improve workflow efficiency, and maintain brand and accessibility standards.',
+ i:'Translated creative requirements into consistent, scalable digital communications while fostering cross-functional collaboration and supporting measurable campaign performance.',
+ c:['Digital Creative Strategy','Multi-Channel Execution','Regional Stakeholder Coordination','Brand Consistency','Workflow Improvement']},
+{id:'p3',n:'03',th:'tl',t:'Integrated Brand Campaigns',s:'Brand Management & Creative Leadership',m:'AEON Credit Service (Asia) · 2015–2019',
+ st:[[2,'$','M','Media plans managed'],[15,'+','%','Brand awareness'],[20,'+','%','Customer engagement']],
+ g:[['#2b2d2c','#6b3a8a','AEON Card Premium: digital and direct mail'],['#d9362b','#8a1f1a','Tastes of Japan 2018 key visual'],['#a8302a','#2b2d2c','Tastes of Japan 2018 in-store and outdoor']],
+ o:'Managed integrated marketing activities designed to strengthen brand awareness and customer engagement, coordinating mass campaigns across PR events, television commercials and digital media.',
+ r:'Led a team of four creative professionals and coordinated external agencies, budgets and timelines. Managed media plans valued at $2M and supported the delivery of at least four mass campaigns annually.',
+ i:'Delivered a cohesive brand-building initiative by aligning creative direction, campaign strategy, team leadership, and multi-channel execution to maximise campaign effectiveness.',
+ c:['Brand Management','Integrated Marketing','Media Planning','Team Leadership','Agency Management','Budget and Timeline Control']}
+];
+$('#projects').innerHTML=P.map(p=>`<section class="proj ${p.th}" id="${p.id}"><div class="wrap pgrid">
+<div class="side rv"><small>Project</small><div class="num">${p.n}</div><h3>${p.t}</h3><p class="sub">${p.s}</p><p class="meta">${p.m}</p>
+<div class="stats stg">${p.st.map(s=>`<div class="stat"><b data-to="${s[0]}" data-pre="${s[1]}" data-suf="${s[2]}">0</b><span>${s[3]}</span></div>`).join('')}</div></div>
+<div class="main"><div class="gal stg" data-gallery>${p.g.map((g,i)=>`<button data-px="${[0,.08,-.06][i]}" style="--a:${g[0]};--b:${g[1]}" data-cap="${g[2]}" data-src="${g[3]||''}" data-cur="View">${g[3]?`<img data-px="-.07" src="${g[3]}" alt="${g[2]}">`:'<b class="pl" data-px="-.07"></b>'}<span>${g[2]}</span></button>`).join('')}</div>
+<p class="tip">Tap an image to enlarge</p>
+<button class="toggle" aria-expanded="false" aria-controls="m${p.n}" data-cur="Open"><span>Read case study</span><i>+</i></button>
+<div class="more" id="m${p.n}"><div><div class="cols stg"><div><h4>Project overview</h4><p>${p.o}</p></div><div><h4>My role</h4><p>${p.r}</p></div><div><h4>Project impact</h4><p>${p.i}</p></div></div>
+<div class="caps stg">${p.c.map(c=>`<span>${c}</span>`).join('')}</div></div></div></div></div></section>`).join('');
 
-/* reveal */
-const rio=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');rio.unobserve(e.target)}}),{threshold:.12});
-$$('.stats,.skills,.caps,.cols,.gal').forEach(g=>{g.classList.add('stg');[...g.children].forEach((c,i)=>c.style.setProperty('--i',i))});
+/* hero: letters, stripes, marquee, quote words, overlay menu */
+$('#t').setAttribute('aria-label','Portfolio');
+$('#t').innerHTML=[...'Portfolio'].map((c,i)=>`<span class="ch" aria-hidden="true" style="--i:${i}" data-c="${c}">${c}</span>`).join('');
+const sp=$('#stripes');
+['#a4bcb9|#5f7d80','#86b3ac|#4d7f84','#68b8a8|#2d808a','#58bfa6|#1b7389','#3ab59b|#17607a','#00b384|#075f6c'].forEach((c,i)=>{const e=document.createElement('i');e.style.cssText=`--n:${i};--c1:${c.split('|')[0]};--c2:${c.split('|')[1]}`;sp.append(e)});
+const bars=$$('i',sp),hero=$('.hero');
+function aim(e){const r=hero.getBoundingClientRect(),x=e.clientX-r.left;hero.style.setProperty('--mx',x+'px');hero.style.setProperty('--px',(x/r.width-.5)*2);hero.style.setProperty('--py',((e.clientY-r.top)/r.height-.5)*2);hero.style.setProperty('--my',(e.clientY-r.top)+'px');
+  const k=Math.min(5,Math.max(0,Math.floor(x/r.width*6)));bars.forEach((b,i)=>b.classList.toggle('on',i===k))}
+hero.addEventListener('pointermove',aim);hero.addEventListener('pointerdown',aim);
+hero.addEventListener('pointerleave',()=>{bars.forEach(b=>b.classList.remove('on'));hero.style.setProperty('--px',0);hero.style.setProperty('--py',0)});
+const words=['Creative management','Brand','Events','Project delivery','Stakeholder engagement','Strategic communications'];
+$('#mq').innerHTML='<div>'+[...words,...words].map(w=>`<span>${w}</span>`).join('')+[...words,...words].map(w=>`<span>${w}</span>`).join('')+'</div>';
+const q=$('#q');q.innerHTML=q.textContent.split(' ').map(w=>`<span class="wd">${w}</span>`).join(' ');
+const wd=$$('.wd');
+const menu=$('#menu'),burger=$('.burger'),hdr=$('header');
+menu.innerHTML=$$('#links a').map((a,i)=>`<a href="${a.getAttribute('href')}" style="--i:${i}">${a.textContent}</a>`).join('');
+function setMenu(o){menu.classList.toggle('open',o);burger.setAttribute('aria-expanded',o);hdr.classList.toggle('m',o);document.body.style.overflow=o?'hidden':''}
+burger.onclick=()=>setMenu(!menu.classList.contains('open'));
+$$('a',menu).forEach(a=>a.onclick=()=>setMenu(false));
+addEventListener('keydown',e=>{if(e.key==='Escape')setMenu(false)});
+
+/* parallax: decorative layers + numerals + poster + closing section */
+
+
+$$('.num').forEach(n=>n.dataset.px='-.14');
+$('[data-gallery].rv').dataset.px='.1';
+
+/* scroll: progress, header, hero drift, scrubbed quote */
+const bar=$('#bar'),aw=$('.aw'),hin=$('.hero .in');let lastY=0,tick=false;
+const pxs=$$('[data-px],[data-pxx]').map(el=>{el.pr=el.closest('section,.hero');el.ax=el.dataset.pxx!==undefined;el.spd=+(el.dataset.px||el.dataset.pxx);return el}),endEl=$('.end'),secs=$$('#about,.proj,#award,.end'),topBtn=$('#toTop'),ctr=$('#ctr');
+function upd(){tick=false;const y=scrollY,max=document.documentElement.scrollHeight-innerHeight;
+  bar.style.transform='scaleX('+(max>0?y/max:0)+')';
+  hdr.classList.toggle('sc',y>20);topBtn.classList.toggle('show',y>innerHeight*.8);ctr.classList.toggle('show',y>innerHeight*.8);
+  if(!menu.classList.contains('open'))hdr.classList.toggle('hide',y>lastY&&y>240);
+  lastY=y;
+  if(!reduce){const vc=innerHeight/2;
+    pxs.forEach(el=>{const r=el.pr.getBoundingClientRect();if(r.bottom<-300||r.top>innerHeight+300)return;{const o=((vc-(r.top+r.height/2))*el.spd*1.5).toFixed(1);el.style.translate=el.ax?o+'px 0':'0 '+o+'px'}});
+    sp.style.transform='translateX('+Math.min(y,innerHeight)*.04+'px) scale('+(1+Math.min(1,y/innerHeight)*.35).toFixed(3)+')';
+    const er=endEl.getBoundingClientRect();endEl.style.backgroundPosition=Math.min(100,Math.max(0,(innerHeight-er.top)/(innerHeight+er.height)*100))+'% 0';
+    secs.forEach(s=>{const b=s.getBoundingClientRect(),H=innerHeight;if(b.bottom<-60||b.top>H+60)return;
+      const t=Math.min(1,Math.max(0,1-b.top/(H*.9))),u=Math.min(1,Math.max(0,b.bottom/(H*.6))),sc=(.9+.1*t)*(.95+.05*u),a=(1-t)*56,z=(1-u)*56;
+      s.style.setProperty('--t',t.toFixed(3));
+      if(sc>.9995&&a<.5&&z<.5){s.style.transform=s.style.borderRadius=s.style.opacity=''}
+      else{s.style.transform='scale('+sc.toFixed(4)+')';s.style.borderRadius=a+'px '+a+'px '+z+'px '+z+'px';s.style.opacity=((.45+.55*t)*(.55+.45*u)).toFixed(3)}})}
+  if(!reduce&&y<innerHeight*1.2){const p=Math.min(1,y/innerHeight);hin.style.transform='translateY('+y*.28+'px) scale('+(1-p*.18).toFixed(3)+')';hin.style.opacity=1-p*1.4}
+  const r=q.getBoundingClientRect(),p=Math.min(1,Math.max(0,(innerHeight*.9-r.top)/(innerHeight*.6))),n=Math.round(p*1.1*wd.length);
+  wd.forEach((w,i)=>w.classList.toggle('lit',i<n));if(!reduce)q.style.transform='scale('+(.9+.1*Math.min(1,p*4)).toFixed(3)+')'}
+addEventListener('scroll',()=>{if(!tick){tick=true;requestAnimationFrame(upd)}},{passive:true});upd();
+const links=$$('#links a');
+['about','p1','p2','p3','award','contact'].forEach(id=>new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)links.forEach(a=>a.classList.toggle('on',a.getAttribute('href')==='#'+id))}),{rootMargin:'-45% 0px -50% 0px'}).observe(document.getElementById(id)));
+
+/* reveals + counters */
+$$('.stg').forEach(g=>[...g.children].forEach((c,i)=>c.style.setProperty('--i',i)));
+const rio=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');rio.unobserve(e.target)}}),{threshold:.1});
 $$('.rv,.stg').forEach(el=>rio.observe(el));
-
-/* animated stats */
-function count(el){
-  const to=+el.dataset.to,pre=el.dataset.pre||'',suf=el.dataset.suf||'';
+function count(el){const to=+el.dataset.to,pre=el.dataset.pre,suf=el.dataset.suf;
   if(reduce){el.textContent=pre+to+suf;return}
-  const t0=performance.now(),d=1400;
-  (function f(t){const p=Math.min(1,(t-t0)/d),v=Math.round(to*(1-Math.pow(1-p,3)));
-    el.textContent=pre+v+suf;if(p<1)requestAnimationFrame(f)})(t0);
-}
+  const t0=performance.now();(function f(t){const p=Math.min(1,(t-t0)/1500);el.textContent=pre+Math.round(to*(1-Math.pow(1-p,3)))+suf;if(p<1)requestAnimationFrame(f)})(t0)}
 const sio=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){count(e.target);sio.unobserve(e.target)}}),{threshold:.6});
 $$('[data-to]').forEach(el=>sio.observe(el));
 
-/* case study toggles */
-$$('.toggle').forEach(b=>b.onclick=()=>{
-  const open=b.getAttribute('aria-expanded')!=='true';
-  b.setAttribute('aria-expanded',open);
-  $('#'+b.getAttribute('aria-controls')).classList.toggle('open',open);
-  b.firstChild.textContent=open?'Close case study ':'Read case study ';
-});
+/* case studies */
+$$('.toggle').forEach(b=>b.onclick=()=>{const o=b.getAttribute('aria-expanded')!=='true';b.setAttribute('aria-expanded',o);
+  $('#'+b.getAttribute('aria-controls')).classList.toggle('open',o);$('span',b).textContent=o?'Close case study':'Read case study'});
 
 /* lightbox */
-const dlg=$('#lb'),box=$('#lbimg'),cap=$('#lbcap'),cnt=$('#lbcount');
-let items=[],idx=0,opener=null;
-function show(){
-  const b=items[idx];
-  box.style.setProperty('--a',getComputedStyle(b).getPropertyValue('--a'));
-  box.style.setProperty('--b',getComputedStyle(b).getPropertyValue('--b'));
-  const old=$('img',box);if(old)old.remove();
+const dlg=$('#lb'),box=$('#lbimg'),cap=$('#lbcap'),cnt=$('#lbcount');let items=[],idx=0,opener=null;
+function show(){const b=items[idx],cs=getComputedStyle(b);
+  box.style.setProperty('--a',cs.getPropertyValue('--a'));box.style.setProperty('--b',cs.getPropertyValue('--b'));
+  $$('img,.ph',box).forEach(x=>x.remove());
   if(b.dataset.src){const i=new Image();i.src=b.dataset.src;i.alt=b.dataset.cap;box.prepend(i)}
-  else if(!$('.ph',box)){}
-  let ph=$('.ph',box);if(!ph){ph=document.createElement('span');ph.className='ph';ph.style.cssText='font:300 28px var(--serif);opacity:.85;text-align:center;padding:24px';box.prepend(ph)}
-  ph.textContent=b.dataset.src?'':b.dataset.cap;
+  else{const ph=document.createElement('span');ph.className='ph';ph.style.cssText='font:300 28px var(--serif);text-align:center;padding:24px';ph.textContent=b.dataset.cap;box.prepend(ph)}
   box.classList.remove('sl');void box.offsetWidth;box.classList.add('sl');
   cap.textContent=b.dataset.cap;cnt.textContent=items.length>1?(idx+1)+' / '+items.length:'';
-  $$('.nv',box).forEach(n=>n.style.display=items.length>1?'':'none');
-}
-$$('[data-gallery]').forEach(g=>{
-  const bs=$$('button',g);
-  bs.forEach((b,i)=>b.onclick=()=>{items=bs;idx=i;opener=b;show();dlg.showModal()});
-});
+  $$('.nv',box).forEach(n=>n.style.display=items.length>1?'':'none')}
+$$('[data-gallery]').forEach(g=>{const bs=$$('button',g);bs.forEach((b,i)=>b.addEventListener('click',()=>{items=bs;idx=i;opener=b;show();dlg.showModal()}))});
 const step=d=>{idx=(idx+d+items.length)%items.length;box.style.setProperty('--d',d);show()};
-$('.nv.p').onclick=()=>step(-1);$('.nv.n').onclick=()=>step(1);
-$('.lbx').onclick=()=>dlg.close();
-
-/* click ripple */
-document.addEventListener('pointerdown',e=>{const b=e.target.closest('.toggle,.cue,.gal button,.poster,.links a');if(!b||reduce)return;
-  const r=b.getBoundingClientRect(),d=Math.max(r.width,r.height)*2,s=document.createElement('span');s.className='rip';
-  s.style.cssText='width:'+d+'px;height:'+d+'px;left:'+(e.clientX-r.left-d/2)+'px;top:'+(e.clientY-r.top-d/2)+'px';
-  b.appendChild(s);setTimeout(()=>s.remove(),700)});
-
-/* poster tilt (mouse hover or touch drag) */
-const ps=$('.poster');
-if(ps&&!reduce){ps.parentElement.style.perspective='900px';
-  ps.addEventListener('pointermove',e=>{const r=ps.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;ps.style.transform='rotateY('+x*14+'deg) rotateX('+(-y*14)+'deg)'});
-  ['pointerleave','pointerup','pointercancel'].forEach(v=>ps.addEventListener(v,()=>ps.style.transform=''))}
-dlg.addEventListener('click',e=>{if(e.target===dlg)dlg.close()});
-dlg.addEventListener('close',()=>opener&&opener.focus());
+$('.nv.p').onclick=()=>step(-1);$('.nv.n').onclick=()=>step(1);$('.lbx').onclick=()=>dlg.close();
+dlg.addEventListener('click',e=>{if(e.target===dlg)dlg.close()});dlg.addEventListener('close',()=>opener&&opener.focus());
 addEventListener('keydown',e=>{if(!dlg.open)return;if(e.key==='ArrowLeft')step(-1);if(e.key==='ArrowRight')step(1)});
+
+/* section counter + masked headline reveal */
+const names=['About','Project 01','Project 02','Project 03','Award','Contact'];
+ctr.innerHTML='<b>01</b> / 06 <span>About</span>';
+['about','p1','p2','p3','award','contact'].forEach((id,i)=>new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)ctr.innerHTML='<b>0'+(i+1)+'</b> / 06 <span>'+names[i]+'</span>'}),{rootMargin:'-45% 0px -50% 0px'}).observe(document.getElementById(id)));
+$$('.side h3,.award h2,.end h2').forEach(h=>{h.innerHTML=h.textContent.split(' ').map((w,i)=>`<span class="mw"><span style="--i:${i}">${w}</span></span>`).join(' ')});
+topBtn.onclick=()=>scrollTo({top:0,behavior:reduce?'auto':'smooth'});
+/* movable parallax: layers follow pointer, finger or device tilt */
+if(!reduce){const rt=document.documentElement;let gx=0,gy=0,f=0;
+  const go=(x,y)=>{gx=x;gy=y;if(!f)f=requestAnimationFrame(()=>{f=0;rt.style.setProperty('--px',gx.toFixed(3));rt.style.setProperty('--py',gy.toFixed(3))})};
+  addEventListener('pointermove',e=>go(e.clientX/innerWidth*2-1,e.clientY/innerHeight*2-1),{passive:true});
+  addEventListener('deviceorientation',e=>{if(e.gamma==null)return;go(Math.max(-1,Math.min(1,e.gamma/30)),Math.max(-1,Math.min(1,(e.beta-40)/30)))})}
+
+/* click ripple, magnetic buttons, poster tilt, custom cursor */
+if(!reduce){
+document.addEventListener('pointerdown',e=>{const b=e.target.closest('.toggle,.cue,.gal button,.poster');if(!b)return;
+  const r=b.getBoundingClientRect(),d=Math.max(r.width,r.height)*2,s=document.createElement('span');s.className='rip';
+  s.style.cssText=`width:${d}px;height:${d}px;left:${e.clientX-r.left-d/2}px;top:${e.clientY-r.top-d/2}px`;b.appendChild(s);setTimeout(()=>s.remove(),700)});
+$$('.mag').forEach(m=>{m.addEventListener('pointermove',e=>{if(e.pointerType!=='mouse')return;const r=m.getBoundingClientRect();m.style.transform=`translate(${(e.clientX-r.left-r.width/2)*.2}px,${(e.clientY-r.top-r.height/2)*.3}px)`});m.addEventListener('pointerleave',()=>m.style.transform='')});
+const ps=$('.poster');ps.parentElement.style.perspective='900px';
+ps.addEventListener('pointermove',e=>{const r=ps.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;ps.style.transform=`rotateY(${x*14}deg) rotateX(${-y*14}deg)`});
+['pointerleave','pointerup','pointercancel'].forEach(v=>ps.addEventListener(v,()=>ps.style.transform=''));
+if(matchMedia('(hover:hover) and (pointer:fine)').matches){
+  const c=document.createElement('div');c.className='cur';document.body.append(c);document.documentElement.classList.add('hc');
+  let x=-99,y=-99,tx=-99,ty=-99;
+  addEventListener('pointermove',e=>{tx=e.clientX;ty=e.clientY;const t=e.target.closest('[data-cur]');c.dataset.l=t?t.dataset.cur:'';c.classList.toggle('big',!!t)});
+  (function f(){x+=(tx-x)*.22;y+=(ty-y)*.22;c.style.transform=`translate(${x}px,${y}px)`;requestAnimationFrame(f)})()}
+}
 })();
 </script>
 </body>
