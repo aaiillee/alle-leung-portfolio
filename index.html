@@ -96,7 +96,9 @@ nav{display:flex;align-items:center;justify-content:space-between;height:60px}
 .gal{display:grid;grid-template-columns:1fr 1fr;gap:14px;padding-bottom:36px}.gal button:first-child{grid-column:span 2;aspect-ratio:16/9}
 .gal button{aspect-ratio:4/3;border:0;border-radius:10px;position:relative;overflow:hidden;color:#fff;font:500 13px var(--sans);cursor:pointer;background:linear-gradient(135deg,var(--a),var(--b));transition:transform .4s}
 .gal button:hover{transform:scale(1.02)}
-.gal img{position:absolute;left:0;top:-25%;width:100%;height:150%;object-fit:cover}
+.gal img{position:absolute;left:0;top:-10%;width:100%;height:120%;object-fit:cover}
+.gal.two button:first-child{grid-column:auto;aspect-ratio:4/3}
+.gal img~span{background:rgba(43,45,44,.78);padding:3px 12px;border-radius:99px;text-shadow:none;left:12px;bottom:12px}
 .pl{position:absolute;inset:-25% -10%;background:radial-gradient(circle at 30% 30%,rgba(255,255,255,.3),transparent 50%),radial-gradient(circle at 80% 85%,rgba(0,0,0,.25),transparent 55%);pointer-events:none}
 
 .gal span{position:absolute;left:16px;bottom:14px;text-align:left;text-shadow:0 1px 8px rgba(0,0,0,.5)}
@@ -216,7 +218,7 @@ dialog::backdrop{background:rgba(10,14,13,.88)}
     <h4>Theme</h4><p>Big World Small Village</p>
     <h4>Design concept</h4><p>By arranging small human figures into religious symbols, the poster visualises religion's ability to foster community and belonging, while also acknowledging the separations that can result from different beliefs and values.</p>
   </div>
-  <div class="rv" data-gallery><button class="poster" data-cur="View" data-cap="Big World Small Village — award-winning poster" style="--a:#555;--b:#1b1b1b"><span>Award-winning poster</span></button></div>
+  <div class="rv" data-gallery><button class="poster" data-cur="View" data-cap="Big World Small Village — award-winning poster" data-src="images/poster.jpg" style="--a:#555;--b:#1b1b1b"><span>Award-winning poster</span></button></div>
 </div></section>
 
 <section class="end" id="contact"><div class="wrap">
@@ -245,21 +247,21 @@ const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
 const P=[
 {id:'p1',n:'01',th:'ink',t:'International Conference',s:'Project Delivery & Experience',m:'GaPI Conference 2026, The Hong Kong Polytechnic University',
  st:[[3,'','','Days of conference'],[180,'','+','Paper submissions'],[300,'','','Average daily participants'],[20,'','+','Countries & regions']],
- g:[['#7a5a45','#2c1f1a','Main hall with hybrid panel discussion'],['#0b8a7a','#10303a','Opening ceremony stage, GaPI 2026'],['#c0392b','#2b2d2c','Keynote session']],
+ g:[['#2c1f1a','#2c1f1a','Main hall with hybrid panel discussion','images/gapi-hall.jpg'],['#10303a','#10303a','Opening ceremony stage, GaPI 2026','images/gapi-stage.jpg'],['#2b2d2c','#2b2d2c','Keynote session','images/gapi-keynote.jpg']],
  o:'A three-day international conference bringing together presenters from more than 20 countries and regions, supported by a programme of paper submissions and coordinated conference activities.',
  r:'As Event Implementation Lead, I coordinated end-to-end conference planning and curation, working with conference committees and coordinating presenter arrangements and paper submissions.',
  i:'Contributed to the planning and delivery of a large-scale international conference through cross-stakeholder coordination, submission management and speaker logistics.',
  c:['Project Coordination','Stakeholder Management','Event Curation','Operational Planning','Data Analysis']},
 {id:'p2',n:'02',th:'grn',t:'Regional Digital Campaigns',s:'Creative Execution & Digital Performance',m:'Premier 3.0 Migration, HSBC · 2019–2023',
  st:[[10,'','+','APAC markets'],[1,'','M+','Targeted users reached'],[26,'','%','Conversion rate uplift']],
- g:[['#b3202c','#5a0f18','Premier campaign landing page'],['#d94a4a','#7a1d25','Direct email'],['#6f7478','#2b2d2c','Mobile application']],
+ g:[['#fff','#fff','Premier 3.0 campaign: direct email, website and mobile app','images/hsbc.jpg','contain']],
  o:'Delivered visual strategies and promotional materials across public websites, direct emails and mobile applications, supporting digital campaigns across 10 APAC markets.',
  r:'Worked with content specialists and UX designers to develop and deliver digital creative assets, improve workflow efficiency, and maintain brand and accessibility standards.',
  i:'Translated creative requirements into consistent, scalable digital communications while fostering cross-functional collaboration and supporting measurable campaign performance.',
  c:['Digital Creative Strategy','Multi-Channel Execution','Regional Stakeholder Coordination','Brand Consistency','Workflow Improvement']},
 {id:'p3',n:'03',th:'tl',t:'Integrated Brand Campaigns',s:'Brand Management & Creative Leadership',m:'AEON Credit Service (Asia) · 2015–2019',
  st:[[2,'$','M','Media plans managed'],[15,'+','%','Brand awareness'],[20,'+','%','Customer engagement']],
- g:[['#2b2d2c','#6b3a8a','AEON Card Premium: digital and direct mail'],['#d9362b','#8a1f1a','Tastes of Japan 2018 key visual'],['#a8302a','#2b2d2c','Tastes of Japan 2018 in-store and outdoor']],
+ g:[['#fff','#fff','AEON Card Premium: website, mobile and direct mail','images/aeon.jpg','contain'],['#fff','#fff','Tastes of Japan 2018: key visual, in-store and outdoor','images/aeon-2.jpg','contain']],
  o:'Managed integrated marketing activities designed to strengthen brand awareness and customer engagement, coordinating mass campaigns across PR events, television commercials and digital media.',
  r:'Led a team of four creative professionals and coordinated external agencies, budgets and timelines. Managed media plans valued at $2M and supported the delivery of at least four mass campaigns annually.',
  i:'Delivered a cohesive brand-building initiative by aligning creative direction, campaign strategy, team leadership, and multi-channel execution to maximise campaign effectiveness.',
@@ -268,7 +270,7 @@ const P=[
 $('#projects').innerHTML=P.map(p=>`<section class="proj ${p.th}" id="${p.id}"><div class="wrap pgrid">
 <div class="side rv"><small>Project</small><div class="num">${p.n}</div><h3>${p.t}</h3><p class="sub">${p.s}</p><p class="meta">${p.m}</p>
 <div class="stats stg">${p.st.map(s=>`<div class="stat"><b data-to="${s[0]}" data-pre="${s[1]}" data-suf="${s[2]}">0</b><span>${s[3]}</span></div>`).join('')}</div></div>
-<div class="main"><div class="gal stg" data-gallery>${p.g.map((g,i)=>`<button data-px="${[0,.08,-.06][i]}" style="--a:${g[0]};--b:${g[1]}" data-cap="${g[2]}" data-src="${g[3]||''}" data-cur="View">${g[3]?`<img data-px="-.07" src="${g[3]}" alt="${g[2]}">`:'<b class="pl" data-px="-.07"></b>'}<span>${g[2]}</span></button>`).join('')}</div>
+<div class="main"><div class="gal stg${p.g.length===2?' two':''}" data-gallery>${p.g.map((g,i)=>`<button data-px="${[0,.04,-.03][i]}" style="--a:${g[0]};--b:${g[1]}" data-cap="${g[2]}" data-src="${g[3]||''}" data-cur="View">${g[3]?`<img data-px="-.02" src="${g[3]}" alt="${g[2]}" style="object-fit:${g[4]||'cover'}">`:'<b class="pl" data-px="-.07"></b>'}<span>${g[2]}</span></button>`).join('')}</div>
 <p class="tip">Tap an image to enlarge</p>
 <button class="toggle" aria-expanded="false" aria-controls="m${p.n}" data-cur="Open"><span>Read case study</span><i>+</i></button>
 <div class="more" id="m${p.n}"><div><div class="cols stg"><div><h4>Project overview</h4><p>${p.o}</p></div><div><h4>My role</h4><p>${p.r}</p></div><div><h4>Project impact</h4><p>${p.i}</p></div></div>
@@ -360,6 +362,7 @@ const names=['About','Project 01','Project 02','Project 03','Award','Contact'];
 ctr.innerHTML='<b>01</b> / 06 <span>About</span>';
 ['about','p1','p2','p3','award','contact'].forEach((id,i)=>new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)ctr.innerHTML='<b>0'+(i+1)+'</b> / 06 <span>'+names[i]+'</span>'}),{rootMargin:'-45% 0px -50% 0px'}).observe(document.getElementById(id)));
 $$('.side h3,.award h2,.end h2').forEach(h=>{h.innerHTML=h.textContent.split(' ').map((w,i)=>`<span class="mw"><span style="--i:${i}">${w}</span></span>`).join(' ')});
+const pb=$('.poster');pb.style.background='url('+pb.dataset.src+') center/cover';
 topBtn.onclick=()=>scrollTo({top:0,behavior:reduce?'auto':'smooth'});
 /* movable parallax: layers follow pointer, finger or device tilt */
 if(!reduce){const rt=document.documentElement;let gx=0,gy=0,f=0;
