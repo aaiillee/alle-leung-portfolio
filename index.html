@@ -163,10 +163,10 @@ body{background:var(--ink)}
 dialog{border:0;padding:0;background:transparent;max-width:min(92vw,1000px);width:100%;color:#fff;overflow:visible;animation:pop .4s cubic-bezier(.2,.8,.2,1)}
 dialog::backdrop{background:rgba(10,14,13,.88)}
 @keyframes pop{from{opacity:0;transform:scale(.92) translateY(14px)}}
-.lb{aspect-ratio:16/10;border-radius:6px;display:grid;place-items:center;background:linear-gradient(135deg,var(--a),var(--b));position:relative;overflow:hidden}
-.lb img{width:100%;height:100%;object-fit:contain;background:#000}
+.lb{height:min(70vh,780px);height:min(70dvh,780px);touch-action:none;border-radius:6px;display:grid;place-items:center;background:linear-gradient(135deg,var(--a),var(--b));position:relative;overflow:hidden}
+.lb img{width:100%;height:100%;object-fit:contain;background:#000;-webkit-user-drag:none;user-select:none;-webkit-touch-callout:none}
 .lb.sl .ph,.lb.sl img{animation:slin .4s ease}@keyframes slin{from{opacity:0;transform:translateX(calc(var(--d,1)*40px))}}
-.cap{padding:14px 4px;font-size:14px;display:flex;justify-content:space-between;gap:16px}
+.cap{padding:14px 4px 4px;font-size:14px;display:flex;justify-content:space-between;gap:16px}.lbh{text-align:center;font-size:12px;opacity:.6;padding-bottom:6px}
 .lbx{position:absolute;top:-48px;right:0;background:none;border:0;color:#fff;font-size:32px;cursor:pointer;width:44px;height:44px}
 .nv{position:absolute;top:50%;transform:translateY(-50%);background:rgba(0,0,0,.45);color:#fff;border:0;width:44px;height:44px;border-radius:50%;font-size:22px;cursor:pointer;z-index:2}
 .nv.p{left:10px}.nv.n{right:10px}
@@ -236,6 +236,7 @@ dialog::backdrop{background:rgba(10,14,13,.88)}
   <button class="lbx" aria-label="Close">×</button>
   <div class="lb" id="lbimg"><button class="nv p" aria-label="Previous">‹</button><button class="nv n" aria-label="Next">›</button></div>
   <div class="cap"><span id="lbcap"></span><span id="lbcount"></span></div>
+  <div class="lbh">Double-tap, pinch or scroll to zoom · drag to move</div>
 </dialog>
 
 <script>
@@ -343,10 +344,10 @@ $$('.toggle').forEach(b=>b.onclick=()=>{const o=b.getAttribute('aria-expanded')!
 
 /* lightbox */
 const dlg=$('#lb'),box=$('#lbimg'),cap=$('#lbcap'),cnt=$('#lbcount');let items=[],idx=0,opener=null;
-function show(){const b=items[idx],cs=getComputedStyle(b);
+function show(){zs=1;zx=zy=0;pts.clear();const b=items[idx],cs=getComputedStyle(b);
   box.style.setProperty('--a',cs.getPropertyValue('--a'));box.style.setProperty('--b',cs.getPropertyValue('--b'));
   $$('img,.ph',box).forEach(x=>x.remove());
-  if(b.dataset.src){const i=new Image();i.src=b.dataset.src;i.alt=b.dataset.cap;box.prepend(i)}
+  if(b.dataset.src){const i=new Image();i.src=b.dataset.src;i.alt=b.dataset.cap;i.draggable=false;box.prepend(i)}
   else{const ph=document.createElement('span');ph.className='ph';ph.style.cssText='font:300 28px var(--serif);text-align:center;padding:24px';ph.textContent=b.dataset.cap;box.prepend(ph)}
   box.classList.remove('sl');void box.offsetWidth;box.classList.add('sl');
   cap.textContent=b.dataset.cap;cnt.textContent=items.length>1?(idx+1)+' / '+items.length:'';
@@ -369,6 +370,26 @@ if(!reduce){const rt=document.documentElement;let gx=0,gy=0,f=0;
   const go=(x,y)=>{gx=x;gy=y;if(!f)f=requestAnimationFrame(()=>{f=0;rt.style.setProperty('--px',gx.toFixed(3));rt.style.setProperty('--py',gy.toFixed(3))})};
   addEventListener('pointermove',e=>go(e.clientX/innerWidth*2-1,e.clientY/innerHeight*2-1),{passive:true});
   addEventListener('deviceorientation',e=>{if(e.gamma==null)return;go(Math.max(-1,Math.min(1,e.gamma/30)),Math.max(-1,Math.min(1,(e.beta-40)/30)))})}
+
+/* lightbox zoom: wheel, pinch and double-tap zoom at the touched point; drag to move */
+let zs=1,zx=0,zy=0,pd=0,pcx=0,pcy=0,lastTap=0,tapX=0,tapY=0,dn=null;const pts=new Map();
+const zimg=()=>$('img',box);
+function zapply(sm){const i=zimg();if(!i)return;i.style.transition=sm?'transform .25s ease':'none';i.style.transformOrigin='0 0';i.style.transform=zs===1?'':`translate(${zx}px,${zy}px) scale(${zs})`}
+function zat(k,px,py,sm){const n=Math.min(6,Math.max(1,zs*k)),r=box.getBoundingClientRect();k=n/zs;zx=px-(px-zx)*k;zy=py-(py-zy)*k;zs=n;
+  if(zs===1){zx=zy=0}else{zx=Math.min(0,Math.max(r.width*(1-zs),zx));zy=Math.min(0,Math.max(r.height*(1-zs),zy))}zapply(sm)}
+box.addEventListener('dragstart',e=>e.preventDefault());
+box.addEventListener('wheel',e=>{if(!zimg())return;e.preventDefault();const r=box.getBoundingClientRect();zat(Math.exp(-e.deltaY*.002),e.clientX-r.left,e.clientY-r.top,false)},{passive:false});
+box.addEventListener('pointerdown',e=>{if(e.target.closest('.nv')||!zimg())return;e.preventDefault();box.setPointerCapture(e.pointerId);pts.set(e.pointerId,[e.clientX,e.clientY]);
+  if(pts.size===1)dn={x:e.clientX,y:e.clientY,t:Date.now(),m:0};
+  else{dn=null;const r=box.getBoundingClientRect(),[a,b]=[...pts.values()];pd=Math.hypot(a[0]-b[0],a[1]-b[1]);pcx=(a[0]+b[0])/2-r.left;pcy=(a[1]+b[1])/2-r.top}});
+box.addEventListener('pointermove',e=>{if(!pts.has(e.pointerId))return;const r=box.getBoundingClientRect(),o=pts.get(e.pointerId);pts.set(e.pointerId,[e.clientX,e.clientY]);
+  if(dn&&Math.hypot(e.clientX-dn.x,e.clientY-dn.y)>8)dn.m=1;
+  if(pts.size===2){const[a,b]=[...pts.values()],d=Math.hypot(a[0]-b[0],a[1]-b[1]),cx=(a[0]+b[0])/2-r.left,cy=(a[1]+b[1])/2-r.top;if(pd){zx+=cx-pcx;zy+=cy-pcy;zat(d/pd,cx,cy,false)}pd=d;pcx=cx;pcy=cy}
+  else if(zs>1){zx+=e.clientX-o[0];zy+=e.clientY-o[1];zat(1,0,0,false)}});
+['pointerup','pointercancel'].forEach(v=>box.addEventListener(v,e=>{
+  if(v==='pointerup'&&dn&&!dn.m&&Date.now()-dn.t<300&&pts.size===1){const t=Date.now(),r=box.getBoundingClientRect();
+    if(t-lastTap<350&&Math.hypot(e.clientX-tapX,e.clientY-tapY)<30){zat(zs>1?1/zs:2.6,e.clientX-r.left,e.clientY-r.top,true);lastTap=0}else{lastTap=t;tapX=e.clientX;tapY=e.clientY}}
+  pts.delete(e.pointerId);pd=0;dn=null}));
 
 /* click ripple, magnetic buttons, poster tilt, custom cursor */
 if(!reduce){
